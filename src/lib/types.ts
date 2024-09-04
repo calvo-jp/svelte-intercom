@@ -1,4 +1,4 @@
-import type * as Intercom from '@intercom/messenger-js-sdk/types.js';
+import type * as Intercom from '@intercom/messenger-js-sdk/types';
 
 export type GenericObject = Record<string, unknown>;
 

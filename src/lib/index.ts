@@ -1,4 +1,4 @@
-export {useIntercom} from './context.svelte.js';
+export {useIntercom} from './context.svelte';
 export {
   boot,
   getVisitorId,
@@ -22,9 +22,9 @@ export {
   startTour,
   trackEvent,
   update,
-} from './intercom.js';
+} from './intercom';
 export {
   default as IntercomProvider,
   type IntercomProviderProps,
 } from './provider.svelte';
-export type {InitArgs, IntercomSettings, UserArgs} from './types.js';
+export type {InitArgs, IntercomSettings, UserArgs} from './types';

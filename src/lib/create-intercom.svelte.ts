@@ -17,8 +17,8 @@ import {
   startTour,
   trackEvent,
   update as update_,
-} from './intercom.js';
-import type {InitArgs, IntercomSettings, UserArgs} from './types.js';
+} from './intercom';
+import type {InitArgs, IntercomSettings, UserArgs} from './types';
 
 export interface CreateIntercomProps extends InitArgs {}
 

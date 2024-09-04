@@ -1,5 +1,5 @@
 <script>
-  import {useIntercom} from '$lib/index.js';
+  import {useIntercom} from '$lib';
 
   let name = $state('');
   let intercom = useIntercom();

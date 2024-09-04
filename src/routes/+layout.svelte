@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {IntercomProvider} from '$lib/index.js';
+  import {IntercomProvider} from '$lib';
 
   let {children} = $props();
 
@@ -12,6 +12,6 @@
   });
 </script>
 
-<IntercomProvider appId="om6shas5">
+<IntercomProvider appId="om6shas5" {name}>
   {@render children()}
 </IntercomProvider>

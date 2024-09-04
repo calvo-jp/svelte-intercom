@@ -1,18 +1,24 @@
 <script lang="ts" module>
   import type {CreateIntercomProps} from './create-intercom.svelte';
 
-  export interface IntercomProviderProps extends CreateIntercomProps {}
+  export interface IntercomProviderProps extends CreateIntercomProps {
+    autoBoot?: boolean;
+    onHide?(): void;
+    onShow?(): void;
+    onUnreadCountChange?(): void;
+    onUserEmailSupplied?(): void;
+  }
 </script>
 
 <script lang="ts">
-  import {setIntercomContext} from './context.svelte.js';
-  import {createIntercom} from './create-intercom.svelte.js';
+  import {setIntercomContext} from './context.svelte';
+  import {createIntercom} from './create-intercom.svelte';
   import {
     onHide as onHide_,
     onShow as onShow_,
     onUnreadCountChange as onUnreadCountChange_,
     onUserEmailSupplied as onUserEmailSupplied_,
-  } from './intercom.js';
+  } from './intercom';
 
   let {
     autoBoot = true,
