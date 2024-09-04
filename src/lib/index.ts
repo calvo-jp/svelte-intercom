@@ -1,0 +1,25 @@
+export {default as Intercom} from './intercom.svelte';
+export type {InitType, IntercomSettings, UserArgs} from './types.js';
+export {
+  boot,
+  getVisitorId,
+  hide,
+  init,
+  onHide,
+  onShow,
+  onUnreadCountChange,
+  onUserEmailSupplied,
+  show,
+  showArticle,
+  showConversation,
+  showMessages,
+  showNewMessage,
+  showNews,
+  showSpace,
+  showTicket,
+  shutdown,
+  startChecklist,
+  startSurvey,
+  startTour,
+  trackEvent,
+} from './utils.js';
