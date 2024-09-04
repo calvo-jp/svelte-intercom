@@ -28,6 +28,11 @@ export default [
     },
   },
   {
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+    },
+  },
+  {
     ignores: ['build/', '.svelte-kit/', 'dist/'],
   },
 ];

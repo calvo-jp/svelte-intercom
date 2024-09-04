@@ -22,6 +22,6 @@ export {
   trackEvent,
   update,
 } from './intercom.js';
-export {default as Intercom, default} from './intercom.svelte';
+export {default as Intercom, type IntercomProps} from './intercom.svelte';
 export type {InitType, IntercomSettings, UserArgs} from './types.js';
-export {useIntercom} from './use-intercom.svelte.js';
+export {useIntercom, type UseIntercom} from './use-intercom.svelte.js';
