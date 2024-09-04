@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Intercom from '$lib/index.js';
+  import {Intercom} from '$lib/index.js';
 
   let {children} = $props();
 </script>
