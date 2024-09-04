@@ -31,9 +31,9 @@ npm install svelte-intercom
 
 ```svelte
 <script>
-  import {getIntercomContext} from 'svelte-intercom';
+  import {useIntercom} from 'svelte-intercom';
 
-  const intercom = getIntercomContext();
+  const intercom = useIntercom();
 </script>
 
 <button type="button" onclick={intercom.hide}>Hide</button>

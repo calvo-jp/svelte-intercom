@@ -1,9 +1,8 @@
 <script>
-  import {getIntercomContext} from '$lib/index.js';
+  import {useIntercom} from '$lib/index.js';
 
-  let name = '';
-
-  let intercom = getIntercomContext();
+  let name = $state('');
+  let intercom = useIntercom();
 </script>
 
 <div>
