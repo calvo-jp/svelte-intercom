@@ -1,15 +1,7 @@
 <script lang="ts" module>
-  import type {Snippet} from 'svelte';
-  import type {CreateIntercomProps} from './create-intercom.svelte.js';
+  import type {CreateIntercomProps} from './create-intercom.svelte';
 
-  export interface IntercomProviderProps extends CreateIntercomProps {
-    autoBoot?: boolean;
-    onHide?(): void;
-    onShow?(): void;
-    onUnreadCountChange?(): void;
-    onUserEmailSupplied?(): void;
-    children: Snippet;
-  }
+  export interface IntercomProviderProps extends CreateIntercomProps {}
 </script>
 
 <script lang="ts">
@@ -32,16 +24,12 @@
     ...props
   }: IntercomProviderProps = $props();
 
-  const intercom = $derived(createIntercom(props));
+  const intercom = createIntercom(props);
 
   $effect.pre(() => {
     if (autoBoot) {
       intercom.init();
     }
-  });
-
-  $effect(() => {
-    intercom.update(props);
   });
 
   $effect(() => {

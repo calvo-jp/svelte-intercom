@@ -8,7 +8,7 @@
 <div>
   <input type="text" bind:value={name} />
 </div>
-<div>
+<div style="margin-top:1rem;">
   <button
     type="button"
     onclick={() => {

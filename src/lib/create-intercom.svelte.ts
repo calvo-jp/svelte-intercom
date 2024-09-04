@@ -16,9 +16,9 @@ import {
   startSurvey,
   startTour,
   trackEvent,
-  update,
+  update as update_,
 } from './intercom.js';
-import type {InitArgs, IntercomSettings} from './types.js';
+import type {InitArgs, IntercomSettings, UserArgs} from './types.js';
 
 export interface CreateIntercomProps extends InitArgs {}
 
@@ -26,13 +26,24 @@ export interface CreateIntercomReturn
   extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
+  let settings = $state(props);
+
   function init() {
-    return init_(props);
+    return init_(settings);
+  }
+
+  function update(args: UserArgs = {}) {
+    settings = {
+      ...settings,
+      ...args,
+    };
+
+    update_(args);
   }
 
   function boot(args?: Partial<IntercomSettings>) {
     return boot_({
-      ...props,
+      ...settings,
       ...args,
     });
   }
