@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts">
+  import {setIntercomContext} from './context.svelte.js';
   import {createIntercom} from './create-intercom.svelte.js';
-  import {setIntercomContext} from './intercom-context.svelte.js';
   import {
     onHide as onHide_,
     onShow as onShow_,
@@ -23,7 +23,7 @@
   } from './intercom.js';
 
   let {
-    autoBoot,
+    autoBoot = true,
     onHide,
     onShow,
     onUnreadCountChange,
@@ -38,6 +38,10 @@
     if (autoBoot) {
       intercom.init();
     }
+  });
+
+  $effect(() => {
+    intercom.update(props);
   });
 
   $effect(() => {

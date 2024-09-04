@@ -9,3 +9,7 @@ export function setIntercomContext(value: () => CreateIntercomReturn) {
 export function getIntercomContext() {
   return getContext<CreateIntercomReturn>('intercom');
 }
+
+export function useIntercom() {
+  return getIntercomContext();
+}
