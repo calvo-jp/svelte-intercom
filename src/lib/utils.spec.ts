@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
-import { snakeCase, snakeCaseKeys } from './utils.js';
+import {describe, expect, test} from 'vitest';
+import {snakeCase, snakeCaseKeys} from './utils.js';
 
 describe('utils', () => {
   test('snakeCase', () => {

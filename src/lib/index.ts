@@ -1,5 +1,3 @@
-export {default as Intercom} from './intercom.svelte';
-export type {InitType, IntercomSettings, UserArgs} from './types.js';
 export {
   boot,
   getVisitorId,
@@ -22,4 +20,8 @@ export {
   startSurvey,
   startTour,
   trackEvent,
-} from './utils.js';
+  update,
+} from './intercom.js';
+export {default as Intercom, default} from './intercom.svelte';
+export type {InitType, IntercomSettings, UserArgs} from './types.js';
+export {useIntercom} from './use-intercom.svelte.js';
