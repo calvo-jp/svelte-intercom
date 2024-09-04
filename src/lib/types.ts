@@ -21,5 +21,5 @@ export type SnakeCaseKeys<T extends GenericObject> = {
 };
 
 export type IntercomSettings = CamelCaseKeys<Intercom.IntercomSettings>;
-export type InitType = CamelCaseKeys<Intercom.InitType>;
+export type InitArgs = CamelCaseKeys<Intercom.InitType>;
 export type UserArgs = CamelCaseKeys<Intercom.UserArgs>;

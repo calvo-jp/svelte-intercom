@@ -1,3 +1,8 @@
+export {getIntercomContext} from './intercom-context.svelte.js';
+export {
+  default as IntercomProvider,
+  type IntercomProviderProps,
+} from './intercom-provider.svelte';
 export {
   boot,
   getVisitorId,
@@ -22,6 +27,4 @@ export {
   trackEvent,
   update,
 } from './intercom.js';
-export {default as Intercom, type IntercomProps} from './intercom.svelte';
-export type {InitType, IntercomSettings, UserArgs} from './types.js';
-export {useIntercom, type UseIntercom} from './use-intercom.svelte.js';
+export type {InitArgs, IntercomSettings, UserArgs} from './types.js';

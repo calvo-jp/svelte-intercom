@@ -1,8 +1,8 @@
 import * as intercom from '@intercom/messenger-js-sdk';
-import type {InitType, IntercomSettings, UserArgs} from './types.js';
+import type {InitArgs, IntercomSettings, UserArgs} from './types.js';
 import {snakeCaseKeys} from './utils.js';
 
-export function init(args: InitType) {
+export function init(args: InitArgs) {
   return intercom.Intercom(snakeCaseKeys(args));
 }
 

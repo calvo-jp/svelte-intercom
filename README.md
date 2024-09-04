@@ -17,20 +17,26 @@ npm install svelte-intercom
 ```svelte
 <!-- +layout.svelte -->
 <script>
-  import {Intercom} from 'svelte-intercom';
+  import {IntercomProvider} from 'svelte-intercom';
+
+  let {children} = $props();
 </script>
 
-<Intercom appId="yourAppId" />
+<IntercomProvider appId="yourAppId">
+  {@render children()}
+</IntercomProvider>
 ```
 
 - Using intercom methods
 
 ```svelte
 <script>
-  import {hide} from 'svelte-intercom';
+  import {getIntercomContext} from 'svelte-intercom';
+
+  const intercom = getIntercomContext();
 </script>
 
-<button type="button" onclick={hide}>Hide</button>
+<button type="button" onclick={intercom.hide}>Hide</button>
 ```
 
 ## Related

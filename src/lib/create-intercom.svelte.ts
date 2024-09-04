@@ -1,8 +1,8 @@
-import {getIntercomSettingsContext} from './context.svelte.js';
 import {
-  boot as b,
+  boot as boot_,
   getVisitorId,
   hide,
+  init as init_,
   show,
   showArticle,
   showConversation,
@@ -16,19 +16,29 @@ import {
   startSurvey,
   startTour,
   trackEvent,
-  update as u,
+  update,
 } from './intercom.js';
-import type {IntercomSettings, UserArgs} from './types.js';
+import type {InitArgs, IntercomSettings} from './types.js';
 
-export interface UseIntercom extends ReturnType<typeof useIntercom> {}
+export interface CreateIntercomProps extends InitArgs {}
 
-export function useIntercom() {
-  const settings = getIntercomSettingsContext();
+export interface CreateIntercomReturn
+  extends ReturnType<typeof createIntercom> {}
 
-  const boot = (args?: Partial<IntercomSettings>) => b({...settings, ...args});
-  const update = (args?: Partial<UserArgs>) => u({...settings, ...args});
+export function createIntercom(props: CreateIntercomProps) {
+  function init() {
+    return init_(props);
+  }
+
+  function boot(args?: Partial<IntercomSettings>) {
+    return boot_({
+      ...props,
+      ...args,
+    });
+  }
 
   return {
+    init,
     boot,
     update,
     getVisitorId,
