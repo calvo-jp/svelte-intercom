@@ -12,7 +12,7 @@ npm install svelte-intercom
 
 ## Usage
 
-- Initializing intercom
+- Add the intercom provider
 
 ```svelte
 <!-- +layout.svelte -->
@@ -27,7 +27,7 @@ npm install svelte-intercom
 </IntercomProvider>
 ```
 
-- Using intercom methods
+- use the `useIntercom` store
 
 ```svelte
 <script>
