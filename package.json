@@ -86,7 +86,7 @@
         "pnpm check"
       ],
       "after:bump": [
-        "pnpm package"
+        "pnpm build"
       ]
     }
   }
