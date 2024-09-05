@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {env} from '$env/dynamic/public';
   import {IntercomProvider} from '$lib';
 
   let {children} = $props();
@@ -12,6 +13,15 @@
   });
 </script>
 
-<IntercomProvider appId="om6shas5" {name}>
+<IntercomProvider
+  appId={env.PUBLIC_INTERCOM_APP_ID}
+  {name}
+  onShow={() => {
+    console.log("'show' called");
+  }}
+  onHide={() => {
+    console.log("'hide' called");
+  }}
+>
   {@render children()}
 </IntercomProvider>

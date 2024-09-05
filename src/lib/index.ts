@@ -1,9 +1,9 @@
 export {useIntercom} from './context.svelte';
 export {
   boot,
+  create,
   getVisitorId,
   hide,
-  init,
   onHide,
   onShow,
   onUnreadCountChange,
@@ -25,6 +25,7 @@ export {
 } from './intercom';
 export {
   default as IntercomProvider,
+  default,
   type IntercomProviderProps,
 } from './provider.svelte';
 export type {InitArgs, IntercomSettings, UserArgs} from './types';

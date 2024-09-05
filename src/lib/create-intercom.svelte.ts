@@ -1,8 +1,16 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable prefer-const */
+
+import {tick} from 'svelte';
 import {
   boot as boot_,
+  create,
   getVisitorId,
   hide,
-  init as init_,
+  onHide as onHide_,
+  onShow as onShow_,
+  onUnreadCountChange as onUnreadCountChange_,
+  onUserEmailSupplied as onUserEmailSupplied_,
   show,
   showArticle,
   showConversation,
@@ -20,36 +28,62 @@ import {
 } from './intercom';
 import type {InitArgs, IntercomSettings, UserArgs} from './types';
 
-export interface CreateIntercomProps extends InitArgs {}
+export interface CreateIntercomProps extends InitArgs {
+  onHide?(): void;
+  onShow?(): void;
+  onUnreadCountChange?(): void;
+  onUserEmailSupplied?(): void;
+}
 
 export interface CreateIntercomReturn
   extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
-  let settings = $state(props);
+  let {
+    /**/
+    onHide,
+    onShow,
+    onUnreadCountChange,
+    onUserEmailSupplied,
+    ...others
+  } = $derived(props);
 
-  function init() {
-    return init_(settings);
+  let started = $state(false);
+  let settings = $state(others);
+
+  function attachListeners() {
+    tick().then(() => {
+      if (onHide) onHide_(onHide);
+      if (onShow) onShow_(onShow);
+      if (onUnreadCountChange) onUnreadCountChange_(onUnreadCountChange);
+      if (onUserEmailSupplied) onUserEmailSupplied_(onUserEmailSupplied);
+    });
   }
 
-  function update(args: UserArgs = {}) {
-    settings = {
+  function boot(args?: Partial<IntercomSettings>) {
+    const config: InitArgs = {
       ...settings,
       ...args,
     };
 
-    update_(args);
+    if (started) {
+      boot_(config);
+    } else {
+      started = true;
+      create(config);
+    }
+
+    attachListeners();
   }
 
-  function boot(args?: Partial<IntercomSettings>) {
-    return boot_({
+  function update(args?: UserArgs) {
+    update_({
       ...settings,
       ...args,
     });
   }
 
   return {
-    init,
     boot,
     update,
     getVisitorId,
