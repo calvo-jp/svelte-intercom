@@ -1,9 +1,9 @@
 export {useIntercom} from './context.svelte';
 export {
   boot,
-  create,
   getVisitorId,
   hide,
+  init,
   onHide,
   onShow,
   onUnreadCountChange,

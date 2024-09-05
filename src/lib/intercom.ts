@@ -6,7 +6,7 @@ import {
 import type {InitArgs, IntercomSettings, UserArgs} from './types';
 import {snakeCaseKeys} from './utils';
 
-export function create(args: InitArgs) {
+export function init(args: InitArgs) {
   return Intercom(snakeCaseKeys(args));
 }
 

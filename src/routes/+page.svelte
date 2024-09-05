@@ -2,11 +2,14 @@
   import {useIntercom} from '$lib';
 
   let name = $state('');
+  let email = $state('');
+
   let intercom = useIntercom();
 </script>
 
 <div>
-  <input type="text" bind:value={name} />
+  <input type="text" placeholder="Name" bind:value={name} />
+  <input type="email" placeholder="Email" bind:value={email} />
 </div>
 <div style="margin-top:1rem;">
   <button
@@ -14,6 +17,7 @@
     onclick={() => {
       intercom.update({
         name,
+        email,
       });
     }}
   >
@@ -28,7 +32,7 @@
 <div>
   <code>
     <pre>
-      {JSON.stringify(intercom.settings, null, 2)}
+      {JSON.stringify(intercom.__settings, null, 2)}
     </pre>
   </code>
 </div>

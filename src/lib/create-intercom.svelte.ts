@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable prefer-const */
 
-import {tick} from 'svelte';
 import {
   boot as boot_,
-  create,
   getVisitorId,
   hide,
+  init as init_,
   onHide as onHide_,
   onShow as onShow_,
   onUnreadCountChange as onUnreadCountChange_,
@@ -19,21 +18,25 @@ import {
   showNews,
   showSpace,
   showTicket,
-  shutdown,
+  shutdown as shutdown_,
   startChecklist,
   startSurvey,
   startTour,
   trackEvent,
   update as update_,
 } from './intercom';
-import type {InitArgs, IntercomSettings, UserArgs} from './types';
+import type {Region, UserArgs} from './types';
 
-export interface CreateIntercomProps extends InitArgs {
+export type CreateIntercomProps = {
+  appId: string;
+  region?: Region;
+  autoBoot?: boolean;
+  autoBootOptions?: UserArgs;
   onHide?(): void;
   onShow?(): void;
   onUnreadCountChange?(): void;
   onUserEmailSupplied?(): void;
-}
+};
 
 export interface CreateIntercomReturn
   extends ReturnType<typeof createIntercom> {}
@@ -41,56 +44,97 @@ export interface CreateIntercomReturn
 export function createIntercom(props: CreateIntercomProps) {
   let {
     /**/
+    appId,
+    region,
+    autoBoot = true,
+    autoBootOptions,
     onHide,
     onShow,
     onUnreadCountChange,
     onUserEmailSupplied,
-    ...others
   } = $derived(props);
 
+  let created = $state(false);
   let started = $state(false);
-  let settings = $state(others);
+  let settings = $state(autoBootOptions);
+  let autoBooted = $state(false);
 
-  function attachListeners() {
-    tick().then(() => {
-      if (onHide) onHide_(onHide);
-      if (onShow) onShow_(onShow);
-      if (onUnreadCountChange) onUnreadCountChange_(onUnreadCountChange);
-      if (onUserEmailSupplied) onUserEmailSupplied_(onUserEmailSupplied);
-    });
+  function addCallbacks() {
+    if (onHide) onHide_(onHide);
+    if (onShow) onShow_(onShow);
+    if (onUnreadCountChange) onUnreadCountChange_(onUnreadCountChange);
+    if (onUserEmailSupplied) onUserEmailSupplied_(onUserEmailSupplied);
   }
 
-  function boot(args?: Partial<IntercomSettings>) {
-    const newSettings: InitArgs = {
-      ...settings,
-      ...args,
-    };
+  function initOrBoot(args?: UserArgs) {
+    if (started) return;
 
-    settings = newSettings;
+    if (created) {
+      boot_({
+        appId,
+        ...args,
+      });
 
-    if (started) {
-      boot_(newSettings);
-    } else {
       started = true;
-      create(newSettings);
+      addCallbacks();
+      return;
     }
 
-    attachListeners();
+    init_({
+      appId,
+      region,
+      ...args,
+    });
+
+    created = true;
+    started = true;
+
+    addCallbacks();
   }
 
-  function update(args?: UserArgs) {
-    const newSettings = {
+  function boot(args?: UserArgs): void;
+  function boot(usePreviousSettings?: boolean): void;
+  function boot(args: UserArgs, includePreviousSettings?: boolean): void;
+  function boot(args: UserArgs | boolean = {}, j?: boolean) {
+    if (args === true) {
+      initOrBoot(settings);
+      return;
+    }
+
+    if (args === false) {
+      initOrBoot();
+      return;
+    }
+
+    if (j === true) {
+      initOrBoot({...settings, ...args});
+      return;
+    }
+
+    initOrBoot(args);
+  }
+
+  function update(args: UserArgs) {
+    settings = {
       ...settings,
       ...args,
     };
 
-    settings = newSettings;
+    update_(args);
+  }
 
-    update_(settings);
+  function shutdown() {
+    started = false;
+    shutdown_();
   }
 
   $effect(() => {
-    settings = others;
+    if (started) return;
+    if (!autoBoot) return;
+    if (autoBooted) return;
+
+    autoBooted = true;
+    initOrBoot();
   });
 
   return {
@@ -111,8 +155,12 @@ export function createIntercom(props: CreateIntercomProps) {
     startSurvey,
     startTour,
     trackEvent,
-    get settings() {
-      return settings;
+    get __settings() {
+      return {
+        appId,
+        region,
+        ...settings,
+      };
     },
   };
 }

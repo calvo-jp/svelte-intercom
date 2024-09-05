@@ -12,7 +12,7 @@ npm install svelte-intercom
 
 ## Usage
 
-- Add the intercom provider
+- Add the `IntercomProvider` component to your root layout
 
 ```svelte
 <!-- +layout.svelte -->
@@ -30,6 +30,7 @@ npm install svelte-intercom
 - use the `useIntercom` store
 
 ```svelte
+<!-- +page.svelte -->
 <script>
   import {useIntercom} from 'svelte-intercom';
 
@@ -38,6 +39,76 @@ npm install svelte-intercom
 
 <button type="button" onclick={intercom.hide}>Hide</button>
 ```
+
+## API
+
+### IntercomProvider
+
+**Props**
+
+- `appId`
+
+  _string_
+
+  Your [Intercom](https://www.intercom.com/) app ID
+
+- `autoBoot`
+
+  _boolean_
+
+  Whether to automatically boot the messenger
+
+- `autoBootOptions`
+
+  _UserArgs_
+
+  The options to be passed during autoboot
+
+- `onShow`
+
+  _() => void_
+
+  Callback whenever messenger is shown
+
+- `onHide`
+
+  _() => void_
+
+  Callback whenever messenger is hidden
+
+- `onUnreadCountChange`
+
+  _() => void_
+
+  Callback whenever the current number of unread messages changes
+
+- `onUserEmailSupplied`
+
+  _() => void_
+
+  Callback whenever a visitor enters their email into the messenger
+
+### useIntercom
+
+The `useIntercom` hook does not accept any arguments and returns the following methods:
+
+- `boot`
+- `update`
+- `getVisitorId`
+- `hide`
+- `show`
+- `showArticle`
+- `showConversation`
+- `showMessages`
+- `showNewMessage`
+- `showNews`
+- `showSpace`
+- `showTicket`
+- `shutdown`
+- `startChecklist`
+- `startSurvey`
+- `startTour`
+- `trackEvent`
 
 ## Related
 

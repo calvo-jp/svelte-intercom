@@ -6,6 +6,8 @@ export type Pretty<T extends GenericObject> = {} & {
   [K in keyof T]: T[K];
 };
 
+export type UnionAlias<T extends string, K extends T = T> = Extract<T, K>;
+
 export type CamelCase<Value extends string> =
   Value extends `${infer T}_${infer U}`
     ? `${T}${Capitalize<CamelCase<U>>}`
@@ -27,3 +29,4 @@ export type SnakeCaseKeys<T extends GenericObject> = {
 export type IntercomSettings = Pretty<CamelCaseKeys<Intercom.IntercomSettings>>;
 export type InitArgs = Pretty<CamelCaseKeys<Intercom.InitType>>;
 export type UserArgs = Pretty<CamelCaseKeys<Intercom.UserArgs>>;
+export type Region = UnionAlias<Intercom.Regions>;
