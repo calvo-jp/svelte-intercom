@@ -1,17 +1,21 @@
-import * as intercom from '@intercom/messenger-js-sdk';
+import {
+  boot as boot_,
+  Intercom,
+  update as update_,
+} from '@intercom/messenger-js-sdk';
 import type {InitArgs, IntercomSettings, UserArgs} from './types';
 import {snakeCaseKeys} from './utils';
 
 export function init(args: InitArgs) {
-  return intercom.Intercom(snakeCaseKeys(args));
+  return Intercom(snakeCaseKeys(args));
 }
 
 export function boot(args: IntercomSettings) {
-  return intercom.boot(snakeCaseKeys(args));
+  return boot_(snakeCaseKeys(args));
 }
 
 export function update(args: UserArgs) {
-  return intercom.update(snakeCaseKeys(args));
+  return update_(snakeCaseKeys(args));
 }
 
 export {
