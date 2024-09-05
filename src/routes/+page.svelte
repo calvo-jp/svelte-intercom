@@ -24,3 +24,11 @@
   <button type="button" onclick={() => intercom.shutdown()}>Shutdown</button>
   <button type="button" onclick={() => intercom.boot()}>Boot</button>
 </div>
+
+<div>
+  <code>
+    <pre>
+      {JSON.stringify(intercom.settings, null, 2)}
+    </pre>
+  </code>
+</div>

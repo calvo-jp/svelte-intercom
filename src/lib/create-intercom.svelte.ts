@@ -61,27 +61,37 @@ export function createIntercom(props: CreateIntercomProps) {
   }
 
   function boot(args?: Partial<IntercomSettings>) {
-    const config: InitArgs = {
+    const newSettings: InitArgs = {
       ...settings,
       ...args,
     };
 
+    settings = newSettings;
+
     if (started) {
-      boot_(config);
+      boot_(newSettings);
     } else {
       started = true;
-      create(config);
+      create(newSettings);
     }
 
     attachListeners();
   }
 
   function update(args?: UserArgs) {
-    update_({
+    const newSettings = {
       ...settings,
       ...args,
-    });
+    };
+
+    settings = newSettings;
+
+    update_(settings);
   }
+
+  $effect(() => {
+    settings = others;
+  });
 
   return {
     boot,
@@ -101,5 +111,8 @@ export function createIntercom(props: CreateIntercomProps) {
     startSurvey,
     startTour,
     trackEvent,
+    get settings() {
+      return settings;
+    },
   };
 }
