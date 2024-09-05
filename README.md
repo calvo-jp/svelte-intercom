@@ -52,6 +52,12 @@ npm install svelte-intercom
 
   Your [Intercom](https://www.intercom.com/) app ID
 
+- `region`
+
+  _region_
+
+  Your preferred region
+
 - `autoBoot`
 
   _boolean_
