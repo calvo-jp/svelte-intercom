@@ -96,7 +96,7 @@ npm install svelte-intercom
 
 ### useIntercom
 
-The `useIntercom` hook does not accept any arguments and returns the following methods:
+The `useIntercom` store does not accept any arguments and returns the following methods:
 
 - `boot`
 - `update`
