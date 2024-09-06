@@ -1,31 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable prefer-const */
 
-import {
-  boot as boot_,
-  getVisitorId,
-  hide,
-  init as init_,
-  onHide as onHide_,
-  onShow as onShow_,
-  onUnreadCountChange as onUnreadCountChange_,
-  onUserEmailSupplied as onUserEmailSupplied_,
-  show,
-  showArticle,
-  showConversation,
-  showMessages,
-  showNewMessage,
-  showNews,
-  showSpace,
-  showTicket,
-  shutdown as shutdown_,
-  startChecklist,
-  startSurvey,
-  startTour,
-  trackEvent,
-  update as update_,
-} from './intercom';
-import type {Region, UserArgs} from './types';
+import * as core from './core';
+import type {IntercomSettings, Region, UserArgs} from './types';
 
 export type CreateIntercomProps = {
   appId: string;
@@ -60,17 +38,17 @@ export function createIntercom(props: CreateIntercomProps) {
   let autoBooted = $state(false);
 
   function addCallbacks() {
-    if (onHide) onHide_(onHide);
-    if (onShow) onShow_(onShow);
-    if (onUnreadCountChange) onUnreadCountChange_(onUnreadCountChange);
-    if (onUserEmailSupplied) onUserEmailSupplied_(onUserEmailSupplied);
+    if (onHide) core.onHide(onHide);
+    if (onShow) core.onShow(onShow);
+    if (onUnreadCountChange) core.onUnreadCountChange(onUnreadCountChange);
+    if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
   function initOrBoot(args?: UserArgs) {
     if (started) return;
 
     if (created) {
-      boot_({
+      core.boot({
         appId,
         ...args,
       });
@@ -80,7 +58,7 @@ export function createIntercom(props: CreateIntercomProps) {
       return;
     }
 
-    init_({
+    core.init({
       appId,
       region,
       ...args,
@@ -120,12 +98,68 @@ export function createIntercom(props: CreateIntercomProps) {
       ...args,
     };
 
-    update_(args);
+    core.update(args);
   }
 
   function shutdown() {
     started = false;
-    shutdown_();
+    core.shutdown();
+  }
+
+  function hide() {
+    core.hide();
+  }
+
+  function show() {
+    core.show();
+  }
+
+  function getVisitorId() {
+    core.getVisitorId();
+  }
+
+  function showArticle(id: string) {
+    core.showArticle(id);
+  }
+
+  function showConversation(id: string) {
+    core.showConversation(id);
+  }
+
+  function showMessages() {
+    core.showMessages();
+  }
+
+  function showNewMessage(prePopulatedContent: string) {
+    core.showNewMessage(prePopulatedContent);
+  }
+
+  function showNews(id: string) {
+    core.showNews(id);
+  }
+
+  function showSpace(name: string) {
+    core.showSpace(name);
+  }
+
+  function showTicket(id: string) {
+    core.showTicket(id);
+  }
+
+  function startChecklist(id: string) {
+    core.startChecklist(id);
+  }
+
+  function startSurvey(id: string) {
+    core.startSurvey(id);
+  }
+
+  function startTour(id: string) {
+    core.startTour(id);
+  }
+
+  function trackEvent(...args: any[]) {
+    core.trackEvent(...args);
   }
 
   $effect(() => {
@@ -139,23 +173,24 @@ export function createIntercom(props: CreateIntercomProps) {
 
   return {
     boot,
-    update,
-    getVisitorId,
     hide,
     show,
-    showArticle,
-    showConversation,
-    showMessages,
-    showNewMessage,
+    update,
+    shutdown,
+    trackEvent,
+    getVisitorId,
+    startTour,
+    startSurvey,
+    startChecklist,
     showNews,
     showSpace,
     showTicket,
-    shutdown,
-    startChecklist,
-    startSurvey,
-    startTour,
-    trackEvent,
-    get __settings() {
+    showArticle,
+    showMessages,
+    showConversation,
+    showNewMessage,
+
+    get __settings__(): IntercomSettings {
       return {
         appId,
         region,

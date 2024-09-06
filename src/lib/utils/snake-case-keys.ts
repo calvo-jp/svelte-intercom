@@ -1,8 +1,5 @@
-import type {GenericObject, SnakeCaseKeys} from './types';
-
-export function snakeCase(value: string) {
-  return value.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-}
+import type {GenericObject, SnakeCaseKeys} from '$lib/types/utils';
+import {snakeCase} from '$lib/utils';
 
 export function snakeCaseKeys<T extends GenericObject>(obj: T) {
   const o: GenericObject = {};

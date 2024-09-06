@@ -1,6 +1,6 @@
 import {getContext, hasContext, setContext} from 'svelte';
 import type {CreateIntercomReturn} from './create-intercom.svelte';
-import {reflect} from './reflect';
+import {reflect} from './utils';
 
 export function setIntercomContext(value: () => CreateIntercomReturn) {
   setContext<CreateIntercomReturn>('intercom', reflect(value));

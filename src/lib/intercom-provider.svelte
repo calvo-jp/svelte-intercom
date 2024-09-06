@@ -8,8 +8,8 @@
 </script>
 
 <script lang="ts">
-  import {setIntercomContext} from './context.svelte';
   import {createIntercom} from './create-intercom.svelte';
+  import {setIntercomContext} from './intercom-context.svelte';
 
   let {children, ...props}: IntercomProviderProps = $props();
 

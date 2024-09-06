@@ -1,5 +1,3 @@
-import type * as Intercom from '@intercom/messenger-js-sdk/types';
-
 export type GenericObject = Record<string, unknown>;
 
 export type Pretty<T extends GenericObject> = {} & {
@@ -25,8 +23,3 @@ export type SnakeCase<Value extends string> =
 export type SnakeCaseKeys<T extends GenericObject> = {
   [K in keyof T as SnakeCase<string & K>]: T[K];
 };
-
-export type IntercomSettings = Pretty<CamelCaseKeys<Intercom.IntercomSettings>>;
-export type InitArgs = Pretty<CamelCaseKeys<Intercom.InitType>>;
-export type UserArgs = Pretty<CamelCaseKeys<Intercom.UserArgs>>;
-export type Region = UnionAlias<Intercom.Regions>;

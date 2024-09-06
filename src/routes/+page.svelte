@@ -32,7 +32,7 @@
 <div>
   <code>
     <pre>
-      {JSON.stringify(intercom.__settings, null, 2)}
+      {JSON.stringify(intercom.__settings__, null, 2)}
     </pre>
   </code>
 </div>
