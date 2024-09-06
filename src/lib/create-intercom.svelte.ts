@@ -5,7 +5,7 @@
 import * as core from './core';
 import type {IntercomSettings, Region, UserArgs} from './types';
 
-export type CreateIntercomProps = {
+export interface CreateIntercomProps {
   appId: string;
   region?: Region;
   autoBoot?: boolean;
@@ -14,10 +14,9 @@ export type CreateIntercomProps = {
   onShow?(): void;
   onUnreadCountChange?(): void;
   onUserEmailSupplied?(): void;
-};
+}
 
-export interface CreateIntercomReturn
-  extends ReturnType<typeof createIntercom> {}
+export interface Intercom extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
   let {

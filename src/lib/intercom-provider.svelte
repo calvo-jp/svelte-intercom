@@ -2,9 +2,9 @@
   import {type Snippet} from 'svelte';
   import type {CreateIntercomProps} from './create-intercom.svelte';
 
-  export type IntercomProviderProps = CreateIntercomProps & {
-    children?: Snippet;
-  };
+  export interface IntercomProviderProps extends CreateIntercomProps {
+    children: Snippet;
+  }
 </script>
 
 <script lang="ts">

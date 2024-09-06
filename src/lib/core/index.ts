@@ -23,3 +23,5 @@ export {
   startTour,
   trackEvent,
 } from '@intercom/messenger-js-sdk';
+
+export type {InitArgs, IntercomSettings, Region, UserArgs} from '../types';
