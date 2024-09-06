@@ -89,7 +89,8 @@
     },
     "hooks": {
       "before:init": [
-        "pnpm check"
+        "pnpm check",
+        "pnpm test"
       ],
       "after:bump": [
         "pnpm build"
