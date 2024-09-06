@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable prefer-const */
 
@@ -12,7 +11,7 @@ export interface CreateIntercomProps {
   autoBootOptions?: UserArgs;
   onHide?(): void;
   onShow?(): void;
-  onUnreadCountChange?(): void;
+  onUnreadCountChange?(unreadCount: number): void;
   onUserEmailSupplied?(): void;
 }
 
@@ -105,62 +104,6 @@ export function createIntercom(props: CreateIntercomProps) {
     core.shutdown();
   }
 
-  function hide() {
-    core.hide();
-  }
-
-  function show() {
-    core.show();
-  }
-
-  function getVisitorId() {
-    core.getVisitorId();
-  }
-
-  function showArticle(id: string) {
-    core.showArticle(id);
-  }
-
-  function showConversation(id: string) {
-    core.showConversation(id);
-  }
-
-  function showMessages() {
-    core.showMessages();
-  }
-
-  function showNewMessage(prePopulatedContent: string) {
-    core.showNewMessage(prePopulatedContent);
-  }
-
-  function showNews(id: string) {
-    core.showNews(id);
-  }
-
-  function showSpace(name: string) {
-    core.showSpace(name);
-  }
-
-  function showTicket(id: string) {
-    core.showTicket(id);
-  }
-
-  function startChecklist(id: string) {
-    core.startChecklist(id);
-  }
-
-  function startSurvey(id: string) {
-    core.startSurvey(id);
-  }
-
-  function startTour(id: string) {
-    core.startTour(id);
-  }
-
-  function trackEvent(...args: any[]) {
-    core.trackEvent(...args);
-  }
-
   $effect(() => {
     if (started) return;
     if (!autoBoot) return;
@@ -172,24 +115,25 @@ export function createIntercom(props: CreateIntercomProps) {
 
   return {
     boot,
-    hide,
-    show,
     update,
     shutdown,
-    trackEvent,
-    getVisitorId,
-    startTour,
-    startSurvey,
-    startChecklist,
-    showNews,
-    showSpace,
-    showTicket,
-    showArticle,
-    showMessages,
-    showConversation,
-    showNewMessage,
 
-    get __settings__(): IntercomSettings {
+    hide: core.hide,
+    show: core.show,
+    showNews: core.showNews,
+    showSpace: core.showSpace,
+    startTour: core.startTour,
+    trackEvent: core.trackEvent,
+    showTicket: core.showTicket,
+    startSurvey: core.startSurvey,
+    showArticle: core.showArticle,
+    getVisitorId: core.getVisitorId,
+    showMessages: core.showMessages,
+    showNewMessage: core.showNewMessage,
+    startChecklist: core.startChecklist,
+    showConversation: core.showConversation,
+
+    get settings(): IntercomSettings {
       return {
         appId,
         region,

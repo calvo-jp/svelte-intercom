@@ -1,8 +1,6 @@
 export type GenericObject = Record<string, unknown>;
 
-export type Pretty<T extends GenericObject> = {} & {
-  [K in keyof T]: T[K];
-};
+export type Pretty<T extends GenericObject> = {} & {[K in keyof T]: T[K]};
 
 export type UnionAlias<T extends string, K extends T = T> = Extract<T, K>;
 

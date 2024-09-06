@@ -16,7 +16,8 @@
   onUserEmailSupplied={() => {
     console.log("'onUserEmailSupplied' called");
   }}
-  onUnreadCountChange={() => {
+  onUnreadCountChange={(unreadCount) => {
+    console.log({unreadCount});
     console.log("'onUnreadCountChange' called");
   }}
 >
