@@ -58,13 +58,13 @@ npm install svelte-intercom
 
   Your preferred region
 
-- `autoBoot`
+- `autoboot`
 
   _boolean_
 
   Whether to automatically boot the messenger
 
-- `autoBootOptions`
+- `autobootOptions`
 
   _UserArgs_
 
