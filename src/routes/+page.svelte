@@ -17,6 +17,11 @@
         name,
         email,
       });
+
+      setTimeout(() => {
+        name = '';
+        email = '';
+      }, 1);
     }}
     class="form"
   >
