@@ -22,3 +22,45 @@
 >
   {@render children()}
 </IntercomProvider>
+
+<style>
+  :global(*, *::before, *::after) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  :global(body) {
+    font-size: 100%;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+    color: '#1f2937';
+    background-color: #ffffff;
+  }
+
+  :global(code, pre) {
+    font-family: 'Fira Code', monospace;
+    font-size: inherit;
+  }
+
+  :global(input, select, textarea, button) {
+    font-family: inherit;
+    font-size: inherit;
+  }
+</style>
