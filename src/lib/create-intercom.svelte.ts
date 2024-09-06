@@ -22,7 +22,7 @@ export function createIntercom(props: CreateIntercomProps) {
     /**/
     appId,
     region,
-    autoBoot = true,
+    autoBoot,
     autoBootOptions,
     onHide,
     onShow,
@@ -32,7 +32,7 @@ export function createIntercom(props: CreateIntercomProps) {
 
   let created = $state(false);
   let started = $state(false);
-  let settings = $state(autoBootOptions);
+  let settings = $state<UserArgs>({});
   let autoBooted = $state(false);
 
   function addCallbacks() {
@@ -42,7 +42,7 @@ export function createIntercom(props: CreateIntercomProps) {
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
-  function initOrBoot(args?: UserArgs) {
+  function initOrBoot(args: UserArgs) {
     if (started) return;
 
     if (created) {
@@ -80,7 +80,7 @@ export function createIntercom(props: CreateIntercomProps) {
     }
 
     if (i === false) {
-      initOrBoot();
+      initOrBoot({});
       return;
     }
 
@@ -112,7 +112,7 @@ export function createIntercom(props: CreateIntercomProps) {
     if (autoBooted) return;
 
     autoBooted = true;
-    initOrBoot();
+    initOrBoot(autoBootOptions ?? {});
   });
 
   return {

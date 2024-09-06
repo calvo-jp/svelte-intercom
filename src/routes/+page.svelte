@@ -40,7 +40,15 @@
     <button type="button" class="outline" onclick={() => intercom.shutdown()}>
       Shutdown
     </button>
-    <button type="button" class="outline" onclick={() => intercom.boot()}>
+    <button
+      type="button"
+      class="outline"
+      onclick={() => {
+        intercom.boot({
+          customProps: 'Hello, Intercom! 🚀',
+        });
+      }}
+    >
       Boot
     </button>
   </div>
