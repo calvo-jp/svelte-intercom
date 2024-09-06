@@ -73,23 +73,23 @@ export function createIntercom(props: CreateIntercomProps) {
   function boot(args?: UserArgs): void;
   function boot(usePreviousSettings?: boolean): void;
   function boot(args: UserArgs, includePreviousSettings?: boolean): void;
-  function boot(args: UserArgs | boolean = {}, j?: boolean) {
-    if (args === true) {
+  function boot(i: UserArgs | boolean = {}, j?: boolean) {
+    if (i === true) {
       initOrBoot(settings);
       return;
     }
 
-    if (args === false) {
+    if (i === false) {
       initOrBoot();
       return;
     }
 
     if (j === true) {
-      initOrBoot({...settings, ...args});
+      initOrBoot({...settings, ...i});
       return;
     }
 
-    initOrBoot(args);
+    initOrBoot(i);
   }
 
   function update(args: UserArgs) {
