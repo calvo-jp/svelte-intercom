@@ -52,6 +52,7 @@ export function createIntercom(props: CreateIntercomProps) {
       });
 
       started = true;
+      settings = args;
       addCallbacks();
       return;
     }
@@ -64,6 +65,7 @@ export function createIntercom(props: CreateIntercomProps) {
 
     created = true;
     started = true;
+    settings = args;
 
     addCallbacks();
   }
