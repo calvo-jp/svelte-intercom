@@ -38,7 +38,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "svelte": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
     }
   },
   "files": [
@@ -57,6 +62,7 @@
     "@sveltejs/package": "^2.2.7",
     "@sveltejs/vite-plugin-svelte": "4.0.0-next.7",
     "@types/eslint": "^9.6.0",
+    "@types/node": "^22.5.4",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.36.0",
