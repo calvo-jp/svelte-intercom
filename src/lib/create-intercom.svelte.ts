@@ -7,8 +7,8 @@ import type {IntercomSettings, Region, UserArgs} from './types';
 export interface CreateIntercomProps {
   appId: string;
   region?: Region;
-  autoBoot?: boolean;
-  autoBootOptions?: UserArgs;
+  autoboot?: boolean;
+  autobootOptions?: UserArgs;
   onHide?(): void;
   onShow?(): void;
   onUnreadCountChange?(unreadCount: number): void;
@@ -22,8 +22,8 @@ export function createIntercom(props: CreateIntercomProps) {
     /**/
     appId,
     region,
-    autoBoot,
-    autoBootOptions,
+    autoboot,
+    autobootOptions,
     onHide,
     onShow,
     onUnreadCountChange,
@@ -33,7 +33,7 @@ export function createIntercom(props: CreateIntercomProps) {
   let created = $state(false);
   let started = $state(false);
   let settings = $state<UserArgs>({});
-  let autoBooted = $state(false);
+  let autobooted = $state(false);
 
   function addCallbacks() {
     if (onHide) core.onHide(onHide);
@@ -108,11 +108,11 @@ export function createIntercom(props: CreateIntercomProps) {
 
   $effect(() => {
     if (started) return;
-    if (!autoBoot) return;
-    if (autoBooted) return;
+    if (!autoboot) return;
+    if (autobooted) return;
 
-    autoBooted = true;
-    initOrBoot(autoBootOptions ?? {});
+    autobooted = true;
+    initOrBoot(autobootOptions ?? {});
   });
 
   return {
