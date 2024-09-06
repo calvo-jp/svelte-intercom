@@ -55,7 +55,7 @@
 
   <div class="preview">
     <code>
-      <pre>{JSON.stringify(intercom.settings, null, 2)}</pre>
+      <pre>{JSON.stringify(intercom.__settings__, null, 2)}</pre>
     </code>
   </div>
 </div>

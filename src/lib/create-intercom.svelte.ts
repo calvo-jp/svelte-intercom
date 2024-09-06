@@ -135,7 +135,11 @@ export function createIntercom(props: CreateIntercomProps) {
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
 
-    get settings(): IntercomSettings {
+    get __settings__(): IntercomSettings {
+      console.warn(
+        "'__settings__' is used internally and we don't recommend using it in your app.",
+      );
+
       return {
         appId,
         region,
