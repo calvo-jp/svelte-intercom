@@ -54,7 +54,7 @@ npm install svelte-intercom
 
 - `region`
 
-  _region_
+  _Region_
 
   Your preferred region
 
