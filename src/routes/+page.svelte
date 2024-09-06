@@ -25,8 +25,8 @@
     }}
     class="form"
   >
-    <input type="text" placeholder="Name" bind:value={name} />
-    <input type="email" placeholder="Email" bind:value={email} />
+    <input type="text" placeholder="Name" required bind:value={name} />
+    <input type="email" placeholder="Email" required bind:value={email} />
     <button type="submit" class="solid">Update</button>
   </form>
 
