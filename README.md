@@ -72,7 +72,7 @@ npm install svelte-intercom
 
 - `autobootOptions`
 
-  _UserArgs_
+  _BootOptions_
 
   The options to be passed during autoboot
 
@@ -90,7 +90,7 @@ npm install svelte-intercom
 
 - `onUnreadCountChange`
 
-  _() => void_
+  _(unreadCount: number) => void_
 
   Callback whenever the current number of unread messages changes
 
