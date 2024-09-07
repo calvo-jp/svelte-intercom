@@ -10,7 +10,8 @@ export function getIntercomContext() {
   if (!hasContext('intercom')) {
     const error = new Error();
     error.name = 'IntercomContextNotFound';
-    error.message = "Intercom context not found. Did you forget to use the 'IntercomProvider'?";
+    error.message =
+      "Intercom context not found. Did you forget to use the 'IntercomProvider'?";
     throw error;
   }
 

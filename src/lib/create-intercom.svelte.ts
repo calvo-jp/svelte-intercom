@@ -33,7 +33,8 @@ export function createIntercom(props: CreateIntercomProps) {
 
   let created = $state(false);
   let started = $state(false);
-  let settings = $state<BootOptions>({});
+  let options = $state<BootOptions>({});
+
   let autobooted = $state(false);
 
   function addCallbacks() {
@@ -43,18 +44,18 @@ export function createIntercom(props: CreateIntercomProps) {
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
-  function initOrBoot(args: BootOptions) {
+  function initOrBoot(opts: BootOptions) {
     if (started) return;
 
     if (created) {
       core.boot({
         appId,
         apiBase,
-        ...args,
+        ...opts,
       });
 
       started = true;
-      settings = args;
+      options = opts;
       addCallbacks();
       return;
     }
@@ -63,22 +64,22 @@ export function createIntercom(props: CreateIntercomProps) {
       appId,
       apiBase,
       region,
-      ...args,
+      ...opts,
     });
 
     created = true;
     started = true;
-    settings = args;
+    options = opts;
 
     addCallbacks();
   }
 
-  function boot(args?: BootOptions): void;
+  function boot(opts?: BootOptions): void;
   function boot(usePreviousSettings?: boolean): void;
-  function boot(args: BootOptions, includePreviousSettings?: boolean): void;
+  function boot(opts: BootOptions, includePreviousSettings?: boolean): void;
   function boot(i: BootOptions | boolean = {}, j?: boolean) {
     if (i === true) {
-      initOrBoot(settings);
+      initOrBoot(options);
       return;
     }
 
@@ -88,20 +89,20 @@ export function createIntercom(props: CreateIntercomProps) {
     }
 
     if (j === true) {
-      initOrBoot({...settings, ...i});
+      initOrBoot({...options, ...i});
       return;
     }
 
     initOrBoot(i);
   }
 
-  function update(args: UpdateOptions) {
-    settings = {
-      ...settings,
-      ...args,
+  function update(opts: UpdateOptions) {
+    options = {
+      ...options,
+      ...opts,
     };
 
-    core.update(args);
+    core.update(opts);
   }
 
   function shutdown() {
@@ -146,7 +147,7 @@ export function createIntercom(props: CreateIntercomProps) {
       return {
         appId,
         region,
-        ...settings,
+        ...options,
       };
     },
   };

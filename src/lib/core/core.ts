@@ -1,6 +1,6 @@
 import * as o from '@intercom/messenger-js-sdk';
 import {snakeCaseKeys} from '../utils/snake-case-keys';
-import type {BootOptions, InitOptions, UpdateOptions} from './types';
+import type {BootOptions, InitOptions, Space, UpdateOptions} from './types';
 
 export function init(opts: InitOptions) {
   return o.Intercom(snakeCaseKeys(opts));
@@ -46,7 +46,7 @@ export function showNews(itemId: string) {
   return o.showNews(itemId);
 }
 
-export function showSpace(name: string) {
+export function showSpace(name: Space) {
   return o.showSpace(name);
 }
 
