@@ -1,2 +1,2 @@
-export type * from '../types/intercom';
 export * from './core';
+export type * from './types';

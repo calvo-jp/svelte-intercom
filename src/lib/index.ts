@@ -5,4 +5,4 @@ export {
   default,
   type IntercomProviderProps,
 } from './intercom-provider.svelte';
-export type * from './types/intercom';
+export type * from './types';

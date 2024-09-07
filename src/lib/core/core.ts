@@ -1,17 +1,17 @@
 import * as o from '@intercom/messenger-js-sdk';
-import type {InitArgs, IntercomSettings, UserArgs} from '../types';
 import {snakeCaseKeys} from '../utils/snake-case-keys';
+import type {BootOptions, InitOptions, UpdateOptions} from './types';
 
-export function init(args: InitArgs) {
-  return o.Intercom(snakeCaseKeys(args));
+export function init(opts: InitOptions) {
+  return o.Intercom(snakeCaseKeys(opts));
 }
 
-export function boot(args: IntercomSettings) {
-  return o.boot(snakeCaseKeys(args));
+export function boot(opts: BootOptions) {
+  return o.boot(snakeCaseKeys(opts));
 }
 
-export function update(args: UserArgs) {
-  return o.update(snakeCaseKeys(args));
+export function update(opts: UpdateOptions) {
+  return o.update(snakeCaseKeys(opts));
 }
 
 export function getVisitorId() {

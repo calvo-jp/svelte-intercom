@@ -2,13 +2,14 @@
 /* eslint-disable prefer-const */
 
 import * as core from './core';
-import type {IntercomSettings, Region, UserArgs} from './types';
+import type {BootOptions, Region, UpdateOptions} from './types';
 
 export interface CreateIntercomProps {
   appId: string;
+  apiBase?: string;
   region?: Region;
   autoboot?: boolean;
-  autobootOptions?: UserArgs;
+  autobootOptions?: BootOptions;
   onHide?(): void;
   onShow?(): void;
   onUnreadCountChange?(unreadCount: number): void;
@@ -19,8 +20,8 @@ export interface Intercom extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
   let {
-    /**/
     appId,
+    apiBase,
     region,
     autoboot,
     autobootOptions,
@@ -32,7 +33,7 @@ export function createIntercom(props: CreateIntercomProps) {
 
   let created = $state(false);
   let started = $state(false);
-  let settings = $state<UserArgs>({});
+  let settings = $state<BootOptions>({});
   let autobooted = $state(false);
 
   function addCallbacks() {
@@ -42,12 +43,13 @@ export function createIntercom(props: CreateIntercomProps) {
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
-  function initOrBoot(args: UserArgs) {
+  function initOrBoot(args: BootOptions) {
     if (started) return;
 
     if (created) {
       core.boot({
         appId,
+        apiBase,
         ...args,
       });
 
@@ -59,6 +61,7 @@ export function createIntercom(props: CreateIntercomProps) {
 
     core.init({
       appId,
+      apiBase,
       region,
       ...args,
     });
@@ -70,10 +73,10 @@ export function createIntercom(props: CreateIntercomProps) {
     addCallbacks();
   }
 
-  function boot(args?: UserArgs): void;
+  function boot(args?: BootOptions): void;
   function boot(usePreviousSettings?: boolean): void;
-  function boot(args: UserArgs, includePreviousSettings?: boolean): void;
-  function boot(i: UserArgs | boolean = {}, j?: boolean) {
+  function boot(args: BootOptions, includePreviousSettings?: boolean): void;
+  function boot(i: BootOptions | boolean = {}, j?: boolean) {
     if (i === true) {
       initOrBoot(settings);
       return;
@@ -92,7 +95,7 @@ export function createIntercom(props: CreateIntercomProps) {
     initOrBoot(i);
   }
 
-  function update(args: UserArgs) {
+  function update(args: UpdateOptions) {
     settings = {
       ...settings,
       ...args,
@@ -135,7 +138,7 @@ export function createIntercom(props: CreateIntercomProps) {
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
 
-    get __settings__(): IntercomSettings {
+    get __settings__(): BootOptions {
       console.warn(
         "'__settings__' is used internally and we don't recommend using it in your app.",
       );

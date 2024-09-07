@@ -1,5 +1,5 @@
-import type {GenericObject, SnakeCaseKeys} from '$lib/types/utils';
-import {snakeCase} from '$lib/utils';
+import {snakeCase} from './snake-case';
+import type {GenericObject, SnakeCaseKeys} from './types';
 
 export function snakeCaseKeys<T extends GenericObject>(obj: T) {
   const o: GenericObject = {};
