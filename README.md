@@ -56,7 +56,7 @@ npm install svelte-intercom
 
   _string_
 
-  Your intercom api base url
+  Your [Intercom](https://www.intercom.com/) api base url
 
 - `region`
 

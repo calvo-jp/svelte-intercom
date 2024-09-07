@@ -139,14 +139,15 @@ export function createIntercom(props: CreateIntercomProps) {
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
 
-    get __settings__(): BootOptions {
+    get __config(): BootOptions {
       console.warn(
-        "'__settings__' is used internally and we don't recommend using it in your app.",
+        "'__config' is used internally and we don't recommend using it in your app.",
       );
 
       return {
         appId,
         region,
+        apiBase,
         ...options,
       };
     },
