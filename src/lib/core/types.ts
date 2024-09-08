@@ -1,6 +1,14 @@
+export type ApiBase =
+  | 'https://api-iam.intercom.io'
+  | 'https://api-iam.eu.intercom.io'
+  | 'https://api-iam.au.intercom.io'
+  | (string & {});
+
+export type Alignment = 'left' | 'right';
+
 export interface BaseOptions {
   appId: string;
-  apiBase?: string;
+  apiBase?: ApiBase;
   phone?: string;
   unsubscribedFromEmails?: boolean;
   languageOverride?: string;
@@ -15,7 +23,7 @@ export interface BaseOptions {
   companies?: [any];
   pageTitle?: string;
   customLauncherSelector?: string;
-  alignment?: string;
+  alignment?: Alignment;
   verticalPadding?: number;
   horizontalPadding?: number;
   hideDefaultLauncher?: boolean;
@@ -25,6 +33,8 @@ export interface BaseOptions {
   installationType?: string;
 }
 
+export type Region = 'us' | 'eu' | 'ap';
+
 export interface InitOptions extends BaseOptions {
   region?: Region;
   [key: string]: any;
@@ -33,14 +43,13 @@ export interface InitOptions extends BaseOptions {
 export interface BootOptions extends BaseOptions {}
 
 export interface User {
+  userId?: string;
   name?: string;
   email?: string;
-  userId?: string;
+  phone?: string;
   createdAt?: number;
   [key: string]: any;
 }
-
-export type Region = 'us' | 'eu' | 'ap';
 
 export type Space =
   | 'home'

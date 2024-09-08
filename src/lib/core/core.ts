@@ -1,17 +1,18 @@
+import {isObject} from '$lib/utils/is-object';
 import * as sdk from '@intercom/messenger-js-sdk';
-import {snakeCaseKeys} from '../utils/snake-case';
+import {snakeCaseKeysDeep} from '../utils/snake-case';
 import type {BootOptions, InitOptions, Space, User} from './types';
 
 export function init(opts: InitOptions) {
-  return sdk.Intercom(snakeCaseKeys(opts));
+  return sdk.Intercom(snakeCaseKeysDeep(opts));
 }
 
 export function boot(opts: BootOptions) {
-  return sdk.boot(snakeCaseKeys(opts));
+  return sdk.boot(snakeCaseKeysDeep(opts));
 }
 
 export function update(opts: User) {
-  return sdk.update(snakeCaseKeys(opts));
+  return sdk.update(snakeCaseKeysDeep(opts));
 }
 
 export function getVisitorId() {
@@ -71,6 +72,12 @@ export function startTour(id: string) {
 }
 
 export function trackEvent(...args: unknown[]) {
+  args = args.map((arg) => {
+    if (Array.isArray(arg)) return arg.map(snakeCaseKeysDeep);
+    if (isObject(arg)) return snakeCaseKeysDeep(arg);
+    return arg;
+  });
+
   return sdk.trackEvent(...args);
 }
 
