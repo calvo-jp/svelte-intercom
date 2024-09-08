@@ -40,23 +40,9 @@
     <button type="button" class="outline" onclick={() => intercom.shutdown()}>
       Shutdown
     </button>
-    <button
-      type="button"
-      class="outline"
-      onclick={() => {
-        intercom.boot({
-          customProps: 'Hello, Intercom! 🚀',
-        });
-      }}
-    >
+    <button type="button" class="outline" onclick={() => intercom.boot()}>
       Boot
     </button>
-  </div>
-
-  <div class="preview">
-    <code>
-      <pre>{JSON.stringify(intercom.__config, null, 2)}</pre>
-    </code>
   </div>
 </div>
 
@@ -117,14 +103,6 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
-  }
-
-  .preview {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #f9fafb;
-    color: #374151;
-    border-radius: 0.375rem;
   }
 
   @media (min-width: 768px) {

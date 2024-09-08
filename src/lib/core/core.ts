@@ -1,91 +1,91 @@
-import * as o from '@intercom/messenger-js-sdk';
-import {snakeCaseKeys} from '../utils/snake-case-keys';
-import type {BootOptions, InitOptions, Space, UpdateOptions} from './types';
+import * as sdk from '@intercom/messenger-js-sdk';
+import {snakeCaseKeys} from '../utils/snake-case';
+import type {BootOptions, InitOptions, Space, User} from './types';
 
 export function init(opts: InitOptions) {
-  return o.Intercom(snakeCaseKeys(opts));
+  return sdk.Intercom(snakeCaseKeys(opts));
 }
 
 export function boot(opts: BootOptions) {
-  return o.boot(snakeCaseKeys(opts));
+  return sdk.boot(snakeCaseKeys(opts));
 }
 
-export function update(opts: UpdateOptions) {
-  return o.update(snakeCaseKeys(opts));
+export function update(opts: User) {
+  return sdk.update(snakeCaseKeys(opts));
 }
 
 export function getVisitorId() {
-  return o.getVisitorId();
+  return sdk.getVisitorId();
 }
 
 export function hide() {
-  return o.hide();
+  return sdk.hide();
 }
 
 export function show() {
-  return o.show();
+  return sdk.show();
 }
 
 export function showArticle(id: string) {
-  return o.showArticle(id);
+  return sdk.showArticle(id);
 }
 
 export function showConversation(id: string) {
-  return o.showConversation(id);
+  return sdk.showConversation(id);
 }
 
 export function showMessages() {
-  return o.showMessages();
+  return sdk.showMessages();
 }
 
 export function showNewMessage(prePopulatedContent: string) {
-  return o.showNewMessage(prePopulatedContent);
+  return sdk.showNewMessage(prePopulatedContent);
 }
 
 export function showNews(itemId: string) {
-  return o.showNews(itemId);
+  return sdk.showNews(itemId);
 }
 
 export function showSpace(name: Space) {
-  return o.showSpace(name);
+  return sdk.showSpace(name);
 }
 
 export function showTicket(id: string) {
-  return o.showTicket(id);
+  return sdk.showTicket(id);
 }
 
 export function shutdown() {
-  return o.shutdown();
+  return sdk.shutdown();
 }
 
 export function startChecklist(id: string) {
-  return o.startChecklist(id);
+  return sdk.startChecklist(id);
 }
 
 export function startSurvey(id: string) {
-  return o.startSurvey(id);
+  return sdk.startSurvey(id);
 }
 
 export function startTour(id: string) {
-  return o.startTour(id);
+  return sdk.startTour(id);
 }
 
 export function trackEvent(...args: unknown[]) {
-  return o.trackEvent(...args);
+  return sdk.trackEvent(...args);
 }
 
 export function onHide(callback: () => void) {
-  return o.onHide(callback);
+  return sdk.onHide(callback);
 }
 
 export function onShow(callback: () => void) {
-  return o.onShow(callback);
+  return sdk.onShow(callback);
 }
 
 export function onUnreadCountChange(callback: (unreadCount: number) => void) {
-  return o.onUnreadCountChange(callback);
+  return sdk.onUnreadCountChange(callback);
 }
 
 export function onUserEmailSupplied(callback: () => void) {
-  return o.onUserEmailSupplied(callback);
+  return sdk.onUserEmailSupplied(callback);
 }

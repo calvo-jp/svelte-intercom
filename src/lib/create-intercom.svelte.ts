@@ -1,40 +1,30 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable prefer-const */
-
 import * as core from './core';
-import type {BootOptions, Region, UpdateOptions} from './types';
 
-export interface CreateIntercomProps {
-  appId: string;
-  apiBase?: string;
-  region?: Region;
+export interface CreateIntercomProps extends core.BaseOptions {
+  region?: core.Region;
   autoboot?: boolean;
-  autobootOptions?: BootOptions;
   onHide?(): void;
   onShow?(): void;
   onUnreadCountChange?(unreadCount: number): void;
   onUserEmailSupplied?(): void;
+  [key: string]: any;
 }
 
-export interface Intercom extends ReturnType<typeof createIntercom> {}
+export interface CreateIntercomReturn
+  extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
-  let {
-    appId,
-    apiBase,
-    region,
-    autoboot,
-    autobootOptions,
+  const {
+    autoboot = true,
     onHide,
     onShow,
     onUnreadCountChange,
     onUserEmailSupplied,
+    ...bootProps
   } = $derived(props);
 
   let created = $state(false);
   let started = $state(false);
-  let options = $state<BootOptions>({});
-
   let autobooted = $state(false);
 
   function addCallbacks() {
@@ -44,65 +34,24 @@ export function createIntercom(props: CreateIntercomProps) {
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
-  function initOrBoot(opts: BootOptions) {
+  function boot(opts?: Omit<core.BootOptions, 'appId' | 'apiBase'>) {
     if (started) return;
-
     if (created) {
       core.boot({
-        appId,
-        apiBase,
+        ...bootProps,
         ...opts,
       });
-
-      started = true;
-      options = opts;
-      addCallbacks();
-      return;
+    } else {
+      core.init({
+        ...bootProps,
+        ...opts,
+      });
     }
-
-    core.init({
-      appId,
-      apiBase,
-      region,
-      ...opts,
-    });
 
     created = true;
     started = true;
-    options = opts;
 
     addCallbacks();
-  }
-
-  function boot(opts?: BootOptions): void;
-  function boot(usePreviousSettings?: boolean): void;
-  function boot(opts: BootOptions, includePreviousSettings?: boolean): void;
-  function boot(i: BootOptions | boolean = {}, j?: boolean) {
-    if (i === true) {
-      initOrBoot(options);
-      return;
-    }
-
-    if (i === false) {
-      initOrBoot({});
-      return;
-    }
-
-    if (j === true) {
-      initOrBoot({...options, ...i});
-      return;
-    }
-
-    initOrBoot(i);
-  }
-
-  function update(opts: UpdateOptions) {
-    options = {
-      ...options,
-      ...opts,
-    };
-
-    core.update(opts);
   }
 
   function shutdown() {
@@ -115,17 +64,16 @@ export function createIntercom(props: CreateIntercomProps) {
     if (!autoboot) return;
     if (autobooted) return;
 
+    boot();
     autobooted = true;
-    initOrBoot(autobootOptions ?? {});
   });
 
   return {
     boot,
-    update,
-    shutdown,
-
     hide: core.hide,
     show: core.show,
+    update: core.update,
+    shutdown,
     showNews: core.showNews,
     showSpace: core.showSpace,
     startTour: core.startTour,
@@ -138,18 +86,5 @@ export function createIntercom(props: CreateIntercomProps) {
     showNewMessage: core.showNewMessage,
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
-
-    get __config(): BootOptions {
-      console.warn(
-        "'__config' is used internally and we don't recommend using it in your app.",
-      );
-
-      return {
-        appId,
-        region,
-        apiBase,
-        ...options,
-      };
-    },
   };
 }
