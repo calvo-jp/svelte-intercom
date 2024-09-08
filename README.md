@@ -30,17 +30,16 @@ npm install svelte-intercom
   backgroundColor="#475569"
   verticalPadding={32}
   onShow={function () {
-    console.log("'show' called");
+    // logic
   }}
   onHide={function () {
-    console.log("'hide' called");
+    // logic
   }}
   onUserEmailSupplied={function () {
-    console.log("'onUserEmailSupplied' called");
+    // logic
   }}
   onUnreadCountChange={function (unreadCount) {
-    console.log({unreadCount});
-    console.log("'onUnreadCountChange' called");
+    // logic
   }}
 >
   {@render children()}
