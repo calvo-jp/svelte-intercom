@@ -68,7 +68,21 @@ npm install svelte-intercom
     intercom.show();
   }}
 >
-  Shot
+  Show
+</button>
+<button
+  onclick={function () {
+    intercom.boot();
+  }}
+>
+  Boot
+</button>
+<button
+  onclick={function () {
+    intercom.shutdown();
+  }}
+>
+  Shutdown
 </button>
 ```
 
