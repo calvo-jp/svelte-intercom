@@ -70,12 +70,6 @@ npm install svelte-intercom
 
   Whether to automatically boot the messenger
 
-- `autobootOptions`
-
-  _BootOptions_
-
-  The options to be passed during autoboot
-
 - `onShow`
 
   _() => void_
