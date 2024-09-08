@@ -7,7 +7,6 @@
 
 <IntercomProvider
   appId={env.PUBLIC_INTERCOM_APP_ID}
-  autoboot
   onShow={() => {
     console.log("'show' called");
   }}

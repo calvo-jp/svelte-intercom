@@ -22,7 +22,27 @@ npm install svelte-intercom
   let {children} = $props();
 </script>
 
-<IntercomProvider appId="yourAppId">
+<IntercomProvider
+  appId="yourAppId"
+  region="us"
+  apiBase="https://api-iam.intercom.io"
+  actionColor="#0f172a"
+  backgroundColor="#475569"
+  verticalPadding={32}
+  onShow={function () {
+    console.log("'show' called");
+  }}
+  onHide={function () {
+    console.log("'hide' called");
+  }}
+  onUserEmailSupplied={function () {
+    console.log("'onUserEmailSupplied' called");
+  }}
+  onUnreadCountChange={function (unreadCount) {
+    console.log({unreadCount});
+    console.log("'onUnreadCountChange' called");
+  }}
+>
   {@render children()}
 </IntercomProvider>
 ```
@@ -37,84 +57,21 @@ npm install svelte-intercom
   const intercom = useIntercom();
 </script>
 
-<button type="button" onclick={intercom.hide}>Hide</button>
+<button
+  onclick={function () {
+    intercom.hide();
+  }}
+>
+  Hide
+</button>
+<button
+  onclick={function () {
+    intercom.show();
+  }}
+>
+  Shot
+</button>
 ```
-
-## API
-
-### IntercomProvider
-
-**Props**
-
-- `appId`
-
-  _string_
-
-  Your [Intercom](https://www.intercom.com/) app ID
-
-- `apiBase`
-
-  _string_
-
-  Your [Intercom](https://www.intercom.com/) api base url
-
-- `region`
-
-  _Region_
-
-  Your preferred region
-
-- `autoboot`
-
-  _boolean_
-
-  Whether to automatically boot the messenger
-
-- `onShow`
-
-  _() => void_
-
-  Callback whenever messenger is shown
-
-- `onHide`
-
-  _() => void_
-
-  Callback whenever messenger is hidden
-
-- `onUnreadCountChange`
-
-  _(unreadCount: number) => void_
-
-  Callback whenever the current number of unread messages changes
-
-- `onUserEmailSupplied`
-
-  _() => void_
-
-  Callback whenever a visitor enters their email into the messenger
-
-### useIntercom
-
-The `useIntercom` store does not accept any arguments and returns the following methods:
-
-- `boot`
-- `update`
-- `getVisitorId`
-- `hide`
-- `show`
-- `showArticle`
-- `showConversation`
-- `showMessages`
-- `showNewMessage`
-- `showNews`
-- `showSpace`
-- `showTicket`
-- `shutdown`
-- `startChecklist`
-- `startSurvey`
-- `startTour`
-- `trackEvent`
 
 ## Related
 
