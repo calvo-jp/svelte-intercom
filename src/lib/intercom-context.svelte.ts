@@ -12,6 +12,7 @@ export function getIntercomContext() {
     error.name = 'IntercomContextNotFound';
     error.message =
       "Intercom context not found. Did you forget to use the 'IntercomProvider'?";
+    Error.captureStackTrace?.(error, getIntercomContext);
     throw error;
   }
 
