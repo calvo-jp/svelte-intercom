@@ -40,7 +40,7 @@
     <button type="button" class="outline" onclick={() => intercom.shutdown()}>
       Shutdown
     </button>
-    <button type="button" class="outline" onclick={() => intercom.reboot()}>
+    <button type="button" class="outline" onclick={() => intercom.boot()}>
       Boot
     </button>
   </div>
