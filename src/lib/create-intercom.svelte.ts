@@ -59,6 +59,11 @@ export function createIntercom(props: CreateIntercomProps) {
     core.shutdown();
   }
 
+  function reboot() {
+    shutdown();
+    setTimeout(boot, 1);
+  }
+
   $effect(() => {
     if (started) return;
     if (!autoboot) return;
@@ -73,6 +78,7 @@ export function createIntercom(props: CreateIntercomProps) {
     hide: core.hide,
     show: core.show,
     update: core.update,
+    reboot,
     shutdown,
     showNews: core.showNews,
     showSpace: core.showSpace,

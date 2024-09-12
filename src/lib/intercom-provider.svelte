@@ -15,7 +15,7 @@
 
   const intercom = createIntercom(props);
 
-  setIntercomContext(() => intercom);
+  setIntercomContext(intercom);
 </script>
 
 {@render children?.()}
