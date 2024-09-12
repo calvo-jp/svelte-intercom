@@ -1,6 +1,5 @@
-import {isObject} from '$lib/utils/is-object';
 import * as sdk from '@intercom/messenger-js-sdk';
-import {snakeCaseKeysDeep} from '../utils/snake-case';
+import {snakeCaseKeysDeep} from '../utils/snake-case-keys';
 import type {BootOptions, InitOptions, Space, User} from './types';
 
 export function init(opts: InitOptions) {
@@ -72,13 +71,7 @@ export function startTour(id: string) {
 }
 
 export function trackEvent(...args: unknown[]) {
-  args = args.map((arg) => {
-    if (Array.isArray(arg)) return arg.map(snakeCaseKeysDeep);
-    if (isObject(arg)) return snakeCaseKeysDeep(arg);
-    return arg;
-  });
-
-  return sdk.trackEvent(...args);
+  return sdk.trackEvent(...snakeCaseKeysDeep(args));
 }
 
 export function onHide(callback: () => void) {
