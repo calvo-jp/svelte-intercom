@@ -1,4 +1,5 @@
 import * as core from './core';
+import type {BootOptions} from './types';
 
 export interface CreateIntercomProps extends core.BaseOptions {
   region?: core.Region;
@@ -34,7 +35,7 @@ export function createIntercom(props: CreateIntercomProps) {
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
   }
 
-  function boot(opts?: Omit<core.BootOptions, 'appId' | 'apiBase'>) {
+  function boot(opts?: BootOptions) {
     if (started) return;
     if (created) {
       core.boot({
@@ -59,9 +60,9 @@ export function createIntercom(props: CreateIntercomProps) {
     core.shutdown();
   }
 
-  function reboot() {
+  function reboot(opts?: BootOptions) {
     shutdown();
-    setTimeout(boot, 1);
+    setTimeout(() => boot(opts), 1);
   }
 
   $effect(() => {

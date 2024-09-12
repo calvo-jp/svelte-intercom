@@ -1,9 +1,12 @@
 <script lang="ts" module>
   import type {Snippet} from 'svelte';
-  import type {CreateIntercomProps} from './create-intercom.svelte';
+  import type {
+    CreateIntercomProps,
+    CreateIntercomReturn,
+  } from './create-intercom.svelte';
 
   export interface IntercomProviderProps extends CreateIntercomProps {
-    children: Snippet;
+    children: Snippet<[CreateIntercomReturn]>;
   }
 </script>
 
@@ -18,4 +21,4 @@
   setIntercomContext(intercom);
 </script>
 
-{@render children?.()}
+{@render children?.(intercom)}
