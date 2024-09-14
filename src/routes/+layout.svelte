@@ -11,8 +11,6 @@
   bootOptions={{
     actionColor: '#0f172a',
     backgroundColor: '#475569',
-    hideDefaultLauncher: true,
-    customLauncherSelector: '#intercom-launcher',
   }}
   onShow={() => {
     console.log("'show' called");
