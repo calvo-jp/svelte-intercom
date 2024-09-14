@@ -2,6 +2,7 @@ import {tick} from 'svelte';
 import type {HTMLButtonAttributes} from 'svelte/elements';
 import * as core from './core';
 import type {ApiBase, BootOptions, Region, UpdateOptions} from './types';
+import {stylex} from './utils/stylex';
 
 export interface CreateIntercomProps {
   appId: string;
@@ -140,22 +141,22 @@ export function createIntercom(props: CreateIntercomProps) {
   });
 
   function getLauncherProps(): HTMLButtonAttributes {
-    let style = '';
+    const id = currentBootOptions?.customLauncherSelector
+      ? undefined
+      : 'intercom-launcher';
 
-    if (currentBootOptions?.actionColor) {
-      style += `--action-color: ${currentBootOptions.actionColor};`;
-    }
-
-    if (currentBootOptions?.backgroundColor) {
-      style += `--background-color: ${currentBootOptions.backgroundColor};`;
-    }
+    const style = stylex({
+      '--action-color': currentBootOptions?.actionColor,
+      '--background-color': currentBootOptions?.backgroundColor,
+    });
 
     return {
+      id,
       type: 'button',
+      style,
       onclick: toggle,
       'aria-label': 'Intercom Launcher',
       'data-state': hidden ? 'closed' : 'open',
-      style,
     };
   }
 

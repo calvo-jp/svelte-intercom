@@ -16,6 +16,8 @@
   let space = $state('');
 
   let intercom = useIntercom();
+
+  $inspect(intercom.getLauncherProps());
 </script>
 
 <div class="container">
