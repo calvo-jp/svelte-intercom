@@ -3,11 +3,4 @@ export {
   default as IntercomProvider,
   type IntercomProviderProps,
 } from './intercom-provider.svelte';
-export type {
-  Alignment,
-  ApiBase,
-  BootOptions,
-  Region,
-  Space,
-  User,
-} from './types';
+export type * from './types';
