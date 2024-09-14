@@ -7,6 +7,11 @@
 
 <IntercomProvider
   appId={env.PUBLIC_INTERCOM_APP_ID}
+  autoboot
+  bootOptions={{
+    actionColor: '#0f172a',
+    backgroundColor: '#475569',
+  }}
   onShow={() => {
     console.log("'show' called");
   }}
@@ -20,8 +25,6 @@
     console.log({unreadCount});
     console.log("'onUnreadCountChange' called");
   }}
-  actionColor="#0f172a"
-  backgroundColor="#475569"
 >
   {@render children()}
 </IntercomProvider>

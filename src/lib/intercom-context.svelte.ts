@@ -1,8 +1,8 @@
 import {getContext, hasContext, setContext} from 'svelte';
-import type {CreateIntercomReturn} from './create-intercom.svelte';
+import type {Intercom} from './create-intercom.svelte';
 
-export function setIntercomContext(value: CreateIntercomReturn) {
-  setContext<CreateIntercomReturn>('intercom', value);
+export function setIntercomContext(value: Intercom) {
+  setContext<Intercom>('intercom', value);
 }
 
 export function getIntercomContext() {
@@ -15,7 +15,7 @@ export function getIntercomContext() {
     throw error;
   }
 
-  return getContext<CreateIntercomReturn>('intercom');
+  return getContext<Intercom>('intercom');
 }
 
 export function useIntercom() {

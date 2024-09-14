@@ -1,66 +1,124 @@
+import {tick} from 'svelte';
 import * as core from './core';
-import type {BootOptions} from './types';
+import type {ApiBase, BootOptions, Region, UpdateOptions} from './types';
 
-export interface CreateIntercomProps extends core.InitOptions {
+export interface CreateIntercomProps {
+  appId: string;
+  region?: Region;
+  apiBase?: ApiBase;
   autoboot?: boolean;
+  bootOptions?: BootOptions;
   onHide?(): void;
   onShow?(): void;
-  onUnreadCountChange?(unreadCount: number): void;
   onUserEmailSupplied?(): void;
+  onUnreadCountChange?(unreadCount: number): void;
 }
 
-export interface CreateIntercomReturn
-  extends ReturnType<typeof createIntercom> {}
+export interface Intercom extends ReturnType<typeof createIntercom> {}
 
 export function createIntercom(props: CreateIntercomProps) {
   const {
-    autoboot = true,
+    appId,
+    apiBase,
+    region,
+    autoboot,
+    bootOptions,
     onHide,
     onShow,
     onUnreadCountChange,
     onUserEmailSupplied,
-    ...bootProps
   } = $derived(props);
 
+  let hidden = $state(true);
   let created = $state(false);
   let started = $state(false);
   let autobooted = $state(false);
 
-  function addCallbacks() {
-    if (onHide) core.onHide(onHide);
-    if (onShow) core.onShow(onShow);
-    if (onUnreadCountChange) core.onUnreadCountChange(onUnreadCountChange);
-    if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
-  }
+  let currentBootOptions = $state(bootOptions);
 
-  function boot(opts?: BootOptions) {
+  function boot(options?: BootOptions) {
     if (started) return;
     if (created) {
       core.boot({
-        ...bootProps,
-        ...opts,
+        appId,
+        apiBase,
+        ...currentBootOptions,
+        ...options,
       });
     } else {
       core.init({
-        ...bootProps,
-        ...opts,
+        appId,
+        apiBase,
+        region,
+        ...currentBootOptions,
+        ...options,
       });
     }
 
     created = true;
     started = true;
 
-    addCallbacks();
+    if (onHide) core.onHide(onHide);
+    if (onShow) core.onShow(onShow);
+    if (onUnreadCountChange) core.onUnreadCountChange(onUnreadCountChange);
+    if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
+
+    currentBootOptions = {
+      ...currentBootOptions,
+      ...options,
+    };
   }
 
   function shutdown() {
-    started = false;
+    if (!started) return;
+
     core.shutdown();
+    started = false;
+    currentBootOptions = bootOptions;
   }
 
-  function reboot(opts?: BootOptions) {
+  shutdown.soft = function () {
+    if (!started) return;
+
+    core.shutdown();
+    started = false;
+  };
+
+  function reboot(options?: BootOptions) {
+    currentBootOptions = bootOptions;
+
+    tick().then(() => {
+      shutdown();
+      setTimeout(() => boot(options), 1);
+    });
+  }
+
+  reboot.soft = (options?: BootOptions) => {
     shutdown();
-    setTimeout(() => boot(opts), 1);
+    setTimeout(() => boot(options), 1);
+  };
+
+  function update(options: UpdateOptions) {
+    currentBootOptions = {
+      ...currentBootOptions,
+      ...options,
+    };
+
+    return core.update(options);
+  }
+
+  function hide() {
+    if (!hidden) {
+      core.hide();
+      hidden = true;
+    }
+  }
+
+  function show() {
+    if (hidden) {
+      core.show();
+      hidden = false;
+    }
   }
 
   $effect(() => {
@@ -74,9 +132,9 @@ export function createIntercom(props: CreateIntercomProps) {
 
   return {
     boot,
-    hide: core.hide,
-    show: core.show,
-    update: core.update,
+    hide,
+    show,
+    update,
     reboot,
     shutdown,
     showNews: core.showNews,
@@ -91,5 +149,8 @@ export function createIntercom(props: CreateIntercomProps) {
     showNewMessage: core.showNewMessage,
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
+    get hidden() {
+      return hidden;
+    },
   };
 }
