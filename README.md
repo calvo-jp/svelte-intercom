@@ -196,6 +196,26 @@ the `useIntercom` does not accept anything and returns the following methods:
 
   You can show a conversation programatically in the Messenger by calling `showConversation` method
 
+- `hidden`
+
+  Whether the messenger is hidden or not
+
+- `getLauncherProps`
+
+  Returns button props which can be used for custom launcher
+
+  ```svelte
+  <script>
+    import {useIntercom} from 'svelte-intercom';
+
+    let intercom = useIntercom()
+  </script>
+
+  <button {...intercom.getLauncherProps()}>
+    <ChatIcon />
+  <button>
+  ```
+
 ## Related
 
 - [@intercom/messenger-js-sdk](https://www.npmjs.com/package/@intercom/messenger-js-sdk)
