@@ -1,4 +1,5 @@
 import {tick} from 'svelte';
+import type {HTMLButtonAttributes} from 'svelte/elements';
 import * as core from './core';
 import type {ApiBase, BootOptions, Region, UpdateOptions} from './types';
 
@@ -121,6 +122,14 @@ export function createIntercom(props: CreateIntercomProps) {
     }
   }
 
+  function toggle() {
+    if (hidden) {
+      show();
+    } else {
+      hide();
+    }
+  }
+
   $effect(() => {
     if (started) return;
     if (!autoboot) return;
@@ -130,10 +139,31 @@ export function createIntercom(props: CreateIntercomProps) {
     autobooted = true;
   });
 
+  function getLauncherProps(): HTMLButtonAttributes {
+    let style = '';
+
+    if (currentBootOptions?.actionColor) {
+      style += `--action-color: ${currentBootOptions.actionColor};`;
+    }
+
+    if (currentBootOptions?.backgroundColor) {
+      style += `--background-color: ${currentBootOptions.backgroundColor};`;
+    }
+
+    return {
+      type: 'button',
+      onclick: toggle,
+      'aria-label': 'Intercom Launcher',
+      'data-state': hidden ? 'closed' : 'open',
+      style,
+    };
+  }
+
   return {
     boot,
     hide,
     show,
+    toggle,
     update,
     reboot,
     shutdown,
@@ -149,6 +179,7 @@ export function createIntercom(props: CreateIntercomProps) {
     showNewMessage: core.showNewMessage,
     startChecklist: core.startChecklist,
     showConversation: core.showConversation,
+    getLauncherProps,
     get hidden() {
       return hidden;
     },

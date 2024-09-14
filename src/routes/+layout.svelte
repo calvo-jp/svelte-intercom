@@ -2,7 +2,7 @@
   import {env} from '$env/dynamic/public';
   import {IntercomProvider} from '$lib';
 
-  let {children} = $props();
+  let {...props} = $props();
 </script>
 
 <IntercomProvider
@@ -11,6 +11,8 @@
   bootOptions={{
     actionColor: '#0f172a',
     backgroundColor: '#475569',
+    hideDefaultLauncher: true,
+    customLauncherSelector: '#intercom-launcher',
   }}
   onShow={() => {
     console.log("'show' called");
@@ -26,7 +28,7 @@
     console.log("'onUnreadCountChange' called");
   }}
 >
-  {@render children()}
+  {@render props.children()}
 </IntercomProvider>
 
 <style>
