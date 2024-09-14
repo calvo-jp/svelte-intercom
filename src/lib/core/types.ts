@@ -4,12 +4,28 @@ export type ApiBase =
   | 'https://api-iam.au.intercom.io'
   | (string & {});
 
+export type Region = 'us' | 'eu' | 'ap';
+
 export type Alignment = 'left' | 'right';
 
+export interface Avatar {
+  type: 'avatar' | (string & {});
+  imageUrl: string;
+}
+
+export interface Company {
+  id: string;
+  name?: string;
+  website?: string;
+  industry?: string;
+  createdAt?: number;
+  plan?: string;
+  userCount?: number;
+  size?: number;
+  monthlySpend?: number;
+}
+
 export interface BaseOptions {
-  appId: string;
-  apiBase?: ApiBase;
-  phone?: string;
   unsubscribedFromEmails?: boolean;
   languageOverride?: string;
   utmCampaign?: string;
@@ -17,11 +33,14 @@ export interface BaseOptions {
   utmMedium?: string;
   utmSource?: string;
   utmTerm?: string;
-  avatar?: any;
+  avatar?: Avatar;
   userHash?: string;
-  company?: any;
-  companies?: [any];
+  company?: Company;
+  companies?: Company[];
   pageTitle?: string;
+
+  /* Messenger Options */
+
   customLauncherSelector?: string;
   alignment?: Alignment;
   verticalPadding?: number;
@@ -30,25 +49,31 @@ export interface BaseOptions {
   sessionDuration?: number;
   actionColor?: string;
   backgroundColor?: string;
-  installationType?: string;
-}
 
-export type Region = 'us' | 'eu' | 'ap';
+  /* User Options */
 
-export interface InitOptions extends BaseOptions {
-  region?: Region;
-  [key: string]: any;
-}
-
-export interface BootOptions extends BaseOptions {}
-
-export interface User {
   userId?: string;
   name?: string;
   email?: string;
   phone?: string;
   createdAt?: number;
-  [key: string]: any;
+}
+
+export interface InitOptions extends BaseOptions {
+  appId: string;
+  apiBase?: ApiBase;
+  region?: Region;
+  [x: string]: any;
+}
+
+export interface BootOptions extends BaseOptions {
+  appId: string;
+  apiBase?: ApiBase;
+  [x: string]: any;
+}
+
+export interface UpdateOptions extends BaseOptions {
+  [x: string]: any;
 }
 
 export type Space =

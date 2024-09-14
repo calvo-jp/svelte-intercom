@@ -1,13 +1,15 @@
-import type {BootOptions as CoreBootOptions} from './core';
+import type {BaseOptions} from './core';
 
-export interface BootOptions
-  extends Omit<CoreBootOptions, 'appId' | 'apiBase'> {}
+export interface BootOptions extends BaseOptions {
+  [x: string]: any;
+}
 
 export type {
-  /**/
   Alignment,
   ApiBase,
+  Avatar,
+  Company,
   Region,
   Space,
-  User,
+  UpdateOptions,
 } from './core';

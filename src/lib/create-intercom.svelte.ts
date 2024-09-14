@@ -1,14 +1,12 @@
 import * as core from './core';
 import type {BootOptions} from './types';
 
-export interface CreateIntercomProps extends core.BaseOptions {
-  region?: core.Region;
+export interface CreateIntercomProps extends core.InitOptions {
   autoboot?: boolean;
   onHide?(): void;
   onShow?(): void;
   onUnreadCountChange?(unreadCount: number): void;
   onUserEmailSupplied?(): void;
-  [key: string]: any;
 }
 
 export interface CreateIntercomReturn

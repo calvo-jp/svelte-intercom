@@ -1,6 +1,6 @@
 import * as sdk from '@intercom/messenger-js-sdk';
 import {snakeCaseKeysDeep} from '../utils/snake-case-keys';
-import type {BootOptions, InitOptions, Space, User} from './types';
+import type {BootOptions, InitOptions, Space, UpdateOptions} from './types';
 
 export function init(opts: InitOptions) {
   return sdk.Intercom(snakeCaseKeysDeep(opts));
@@ -10,7 +10,7 @@ export function boot(opts: BootOptions) {
   return sdk.boot(snakeCaseKeysDeep(opts));
 }
 
-export function update(opts: User) {
+export function update(opts: UpdateOptions) {
   return sdk.update(snakeCaseKeysDeep(opts));
 }
 
@@ -70,7 +70,10 @@ export function startTour(id: string) {
   return sdk.startTour(id);
 }
 
-export function trackEvent(...args: unknown[]) {
+export function trackEvent(event: string): void;
+export function trackEvent(event: Record<string, any>): void;
+export function trackEvent(event: string, metadata: Record<string, any>): void;
+export function trackEvent(...args: any) {
   return sdk.trackEvent(...snakeCaseKeysDeep(args));
 }
 
