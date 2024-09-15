@@ -1,3 +1,4 @@
+import {dev} from '$app/environment';
 import {tick} from 'svelte';
 import type {HTMLButtonAttributes} from 'svelte/elements';
 import * as _ from './core';
@@ -18,13 +19,10 @@ export interface CreateIntercomProps {
 
 export interface Intercom extends ReturnType<typeof createIntercom> {}
 
-const launcherDefaultId = 'intercom-messenger-launcher';
-
 const defaultBootOptions = {
   alignment: 'right',
   verticalPadding: 20,
   horizontalPadding: 20,
-  customLauncherSelector: '#' + launcherDefaultId,
 } satisfies BootOptions;
 
 export function createIntercom(props: CreateIntercomProps) {
@@ -164,30 +162,30 @@ export function createIntercom(props: CreateIntercomProps) {
 
   function getLauncherProps(): HTMLButtonAttributes {
     const style = stylex({
-      '--left':
-        latestBootOptions.alignment === 'left'
-          ? latestBootOptions.verticalPadding + 'px'
-          : undefined,
-      '--right':
-        latestBootOptions.alignment === 'right'
-          ? latestBootOptions.verticalPadding + 'px'
-          : undefined,
-      '--bottom': latestBootOptions.horizontalPadding + 'px',
       '--action-color': latestBootOptions?.actionColor,
       '--background-color': latestBootOptions?.backgroundColor,
+      '--vertical-padding': latestBootOptions.verticalPadding + 'px',
+      '--horizontal-padding': latestBootOptions.horizontalPadding + 'px',
     });
 
     return {
-      id:
-        latestBootOptions.customLauncherSelector === '#' + launcherDefaultId
-          ? launcherDefaultId
-          : undefined,
       type: 'button',
       style,
       hidden: !started,
-      onclick: toggle,
       'aria-label': 'Intercom Launcher',
       'data-state': hidden ? 'closed' : 'open',
+
+      ...(!latestBootOptions.customLauncherSelector && {
+        onclick() {
+          if (dev) {
+            console.warn(
+              "No 'customLauncherSelector' was provided. Using default toggle behavior.",
+            );
+          }
+
+          toggle();
+        },
+      }),
     };
   }
 
