@@ -178,9 +178,10 @@ export function createIntercom(props: CreateIntercomProps) {
     });
 
     return {
-      id: others.bootOptions?.customLauncherSelector
-        ? undefined
-        : launcherDefaultId,
+      id:
+        latestBootOptions.customLauncherSelector === '#' + launcherDefaultId
+          ? launcherDefaultId
+          : undefined,
       type: 'button',
       style,
       hidden: !started,
