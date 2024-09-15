@@ -105,6 +105,8 @@ export function createIntercom(props: CreateIntercomProps) {
     if (!started) return;
 
     _.shutdown();
+
+    hidden = true;
     started = false;
     latestBootOptions = bootOptions;
   }
@@ -113,6 +115,8 @@ export function createIntercom(props: CreateIntercomProps) {
     if (!started) return;
 
     _.shutdown();
+
+    hidden = true;
     started = false;
   };
 
