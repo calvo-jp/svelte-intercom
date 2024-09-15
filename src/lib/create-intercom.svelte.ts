@@ -1,6 +1,6 @@
 import {tick} from 'svelte';
 import type {HTMLButtonAttributes} from 'svelte/elements';
-import * as core from './core';
+import * as _ from './core';
 import type {ApiBase, BootOptions, Region, UpdateOptions} from './types';
 import {stylex} from './utils/stylex';
 
@@ -59,14 +59,14 @@ export function createIntercom(props: CreateIntercomProps) {
   function boot(options?: BootOptions) {
     if (started) return;
     if (created) {
-      core.boot({
+      _.boot({
         appId,
         apiBase,
         ...latestBootOptions,
         ...options,
       });
     } else {
-      core.init({
+      _.init({
         appId,
         apiBase,
         region,
@@ -78,33 +78,33 @@ export function createIntercom(props: CreateIntercomProps) {
     created = true;
     started = true;
 
-    core.onHide(() => {
-      if (!hidden) {
-        onHide?.();
-        hidden = true;
-      }
+    _.onHide(() => {
+      if (hidden) return;
+      onHide?.();
+      hidden = true;
     });
 
-    core.onShow(() => {
-      if (hidden) {
-        onShow?.();
-        hidden = false;
-      }
+    _.onShow(() => {
+      if (!hidden) return;
+      onShow?.();
+      hidden = false;
     });
 
-    if (onUnreadCountChange) core.onUnreadCountChange(onUnreadCountChange);
-    if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
+    if (onUnreadCountChange) _.onUnreadCountChange(onUnreadCountChange);
+    if (onUserEmailSupplied) _.onUserEmailSupplied(onUserEmailSupplied);
 
-    latestBootOptions = {
-      ...latestBootOptions,
-      ...options,
-    };
+    tick().then(() => {
+      latestBootOptions = {
+        ...latestBootOptions,
+        ...options,
+      };
+    });
   }
 
   function shutdown() {
     if (!started) return;
 
-    core.shutdown();
+    _.shutdown();
     started = false;
     latestBootOptions = bootOptions;
   }
@@ -112,7 +112,7 @@ export function createIntercom(props: CreateIntercomProps) {
   shutdown.soft = function () {
     if (!started) return;
 
-    core.shutdown();
+    _.shutdown();
     started = false;
   };
 
@@ -131,26 +131,28 @@ export function createIntercom(props: CreateIntercomProps) {
   };
 
   function update(options: UpdateOptions) {
-    latestBootOptions = {
-      ...latestBootOptions,
-      ...options,
-    };
+    _.update(options);
 
-    return core.update(options);
+    tick().then(() => {
+      latestBootOptions = {
+        ...latestBootOptions,
+        ...options,
+      };
+    });
   }
 
   function toggle() {
     if (hidden) {
-      core.show();
+      _.show();
     } else {
-      core.hide();
+      _.hide();
     }
   }
 
   $effect(() => {
     if (started) return;
-    if (!autoboot) return;
     if (autobooted) return;
+    if (!autoboot) return;
 
     boot();
     autobooted = true;
@@ -186,24 +188,24 @@ export function createIntercom(props: CreateIntercomProps) {
 
   return {
     boot,
-    hide: core.hide,
-    show: core.show,
+    hide: _.hide,
+    show: _.show,
     toggle,
     update,
     reboot,
     shutdown,
-    showNews: core.showNews,
-    showSpace: core.showSpace,
-    startTour: core.startTour,
-    trackEvent: core.trackEvent,
-    showTicket: core.showTicket,
-    startSurvey: core.startSurvey,
-    showArticle: core.showArticle,
-    getVisitorId: core.getVisitorId,
-    showMessages: core.showMessages,
-    showNewMessage: core.showNewMessage,
-    startChecklist: core.startChecklist,
-    showConversation: core.showConversation,
+    showNews: _.showNews,
+    showSpace: _.showSpace,
+    startTour: _.startTour,
+    trackEvent: _.trackEvent,
+    showTicket: _.showTicket,
+    startSurvey: _.startSurvey,
+    showArticle: _.showArticle,
+    getVisitorId: _.getVisitorId,
+    showMessages: _.showMessages,
+    showNewMessage: _.showNewMessage,
+    startChecklist: _.startChecklist,
+    showConversation: _.showConversation,
     getLauncherProps,
     get hidden() {
       return hidden;
