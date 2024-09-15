@@ -178,7 +178,7 @@ export function createIntercom(props: CreateIntercomProps) {
     });
 
     return {
-      id: latestBootOptions?.customLauncherSelector
+      id: others.bootOptions?.customLauncherSelector
         ? undefined
         : launcherDefaultId,
       type: 'button',
