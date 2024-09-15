@@ -18,25 +18,43 @@ export interface CreateIntercomProps {
 
 export interface Intercom extends ReturnType<typeof createIntercom> {}
 
+const launcherDefaultId = 'intercom-messenger-launcher';
+
+const defaultBootOptions = {
+  alignment: 'right',
+  verticalPadding: 20,
+  horizontalPadding: 20,
+  customLauncherSelector: '#' + launcherDefaultId,
+} satisfies BootOptions;
+
 export function createIntercom(props: CreateIntercomProps) {
   const {
     appId,
     apiBase,
     region,
     autoboot,
-    bootOptions,
     onHide,
     onShow,
     onUnreadCountChange,
     onUserEmailSupplied,
+    ...others
   } = $derived(props);
 
+  const bootOptions = $derived({
+    ...defaultBootOptions,
+    ...others.bootOptions,
+  });
+
+  /** Whether messenger is open or closed */
   let hidden = $state(true);
+  /** Whether `init` has already been called */
   let created = $state(false);
+  /** Whether `boot` or `init` has already been called */
   let started = $state(false);
+  /** Whether auto boot was done */
   let autobooted = $state(false);
 
-  let currentBootOptions = $state(bootOptions);
+  let latestBootOptions = $state(bootOptions);
 
   function boot(options?: BootOptions) {
     if (started) return;
@@ -44,7 +62,7 @@ export function createIntercom(props: CreateIntercomProps) {
       core.boot({
         appId,
         apiBase,
-        ...currentBootOptions,
+        ...latestBootOptions,
         ...options,
       });
     } else {
@@ -52,7 +70,7 @@ export function createIntercom(props: CreateIntercomProps) {
         appId,
         apiBase,
         region,
-        ...currentBootOptions,
+        ...latestBootOptions,
         ...options,
       });
     }
@@ -60,13 +78,25 @@ export function createIntercom(props: CreateIntercomProps) {
     created = true;
     started = true;
 
-    if (onHide) core.onHide(onHide);
-    if (onShow) core.onShow(onShow);
+    core.onHide(() => {
+      if (!hidden) {
+        onHide?.();
+        hidden = true;
+      }
+    });
+
+    core.onShow(() => {
+      if (hidden) {
+        onShow?.();
+        hidden = false;
+      }
+    });
+
     if (onUnreadCountChange) core.onUnreadCountChange(onUnreadCountChange);
     if (onUserEmailSupplied) core.onUserEmailSupplied(onUserEmailSupplied);
 
-    currentBootOptions = {
-      ...currentBootOptions,
+    latestBootOptions = {
+      ...latestBootOptions,
       ...options,
     };
   }
@@ -76,7 +106,7 @@ export function createIntercom(props: CreateIntercomProps) {
 
     core.shutdown();
     started = false;
-    currentBootOptions = bootOptions;
+    latestBootOptions = bootOptions;
   }
 
   shutdown.soft = function () {
@@ -87,7 +117,7 @@ export function createIntercom(props: CreateIntercomProps) {
   };
 
   function reboot(options?: BootOptions) {
-    currentBootOptions = bootOptions;
+    latestBootOptions = bootOptions;
 
     tick().then(() => {
       shutdown();
@@ -101,33 +131,19 @@ export function createIntercom(props: CreateIntercomProps) {
   };
 
   function update(options: UpdateOptions) {
-    currentBootOptions = {
-      ...currentBootOptions,
+    latestBootOptions = {
+      ...latestBootOptions,
       ...options,
     };
 
     return core.update(options);
   }
 
-  function hide() {
-    if (!hidden) {
-      core.hide();
-      hidden = true;
-    }
-  }
-
-  function show() {
-    if (hidden) {
-      core.show();
-      hidden = false;
-    }
-  }
-
   function toggle() {
     if (hidden) {
-      show();
+      core.show();
     } else {
-      hide();
+      core.hide();
     }
   }
 
@@ -141,19 +157,27 @@ export function createIntercom(props: CreateIntercomProps) {
   });
 
   function getLauncherProps(): HTMLButtonAttributes {
-    const id = currentBootOptions?.customLauncherSelector
-      ? undefined
-      : 'intercom-launcher';
-
     const style = stylex({
-      '--action-color': currentBootOptions?.actionColor,
-      '--background-color': currentBootOptions?.backgroundColor,
+      '--left':
+        latestBootOptions.alignment === 'left'
+          ? latestBootOptions.verticalPadding + 'px'
+          : undefined,
+      '--right':
+        latestBootOptions.alignment === 'right'
+          ? latestBootOptions.verticalPadding + 'px'
+          : undefined,
+      '--bottom': latestBootOptions.horizontalPadding + 'px',
+      '--action-color': latestBootOptions?.actionColor,
+      '--background-color': latestBootOptions?.backgroundColor,
     });
 
     return {
-      id,
+      id: latestBootOptions?.customLauncherSelector
+        ? undefined
+        : launcherDefaultId,
       type: 'button',
       style,
+      hidden: !started,
       onclick: toggle,
       'aria-label': 'Intercom Launcher',
       'data-state': hidden ? 'closed' : 'open',
@@ -162,8 +186,8 @@ export function createIntercom(props: CreateIntercomProps) {
 
   return {
     boot,
-    hide,
-    show,
+    hide: core.hide,
+    show: core.show,
     toggle,
     update,
     reboot,
