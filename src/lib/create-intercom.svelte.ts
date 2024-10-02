@@ -1,4 +1,3 @@
-import {dev} from '$app/environment';
 import {tick} from 'svelte';
 import type {HTMLButtonAttributes} from 'svelte/elements';
 import * as _ from './core';
@@ -174,15 +173,8 @@ export function createIntercom(props: CreateIntercomProps) {
       hidden: !started,
       'aria-label': 'Intercom Launcher',
       'data-state': hidden ? 'closed' : 'open',
-
       ...(!latestBootOptions.customLauncherSelector && {
         onclick() {
-          if (dev) {
-            console.warn(
-              "No 'customLauncherSelector' was provided. Using default toggle behavior.",
-            );
-          }
-
           toggle();
         },
       }),
