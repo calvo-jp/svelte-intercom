@@ -1,12 +1,11 @@
 <script lang="ts">
-  import {env} from '$env/dynamic/public';
   import {IntercomProvider} from '$lib';
 
   let {...props} = $props();
 </script>
 
 <IntercomProvider
-  appId={env.PUBLIC_INTERCOM_APP_ID}
+  appId=""
   autoboot
   bootOptions={{
     actionColor: '#0f172a',
@@ -32,7 +31,11 @@
   {#snippet children(intercom)}
     {@render props.children()}
 
-    <button class="intercom-launcher" {...intercom.getLauncherProps()}>
+    <button
+      class="intercom-launcher"
+      aria-label="Launch Intercom Messenger"
+      {...intercom.getLauncherProps()}
+    >
       <svg
         width="24"
         height="24"
