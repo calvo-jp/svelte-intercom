@@ -49,7 +49,7 @@ export interface Company {
   name?: string;
   website?: string;
   industry?: string;
-  createdAt?: number;
+  createdAt?: string;
   plan?: string;
   userCount?: number;
   size?: number;
