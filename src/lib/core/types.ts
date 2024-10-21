@@ -76,7 +76,7 @@ export interface DataOptions {
   /**
    * The Unix timestamp (in seconds) when the user signed up to your app
    */
-  createdAt?: number;
+  createdAt?: string;
   /**
    * This value can't actually be set by the Javascript API.
    * It automatically uses the time of the last request but is a this is a reserved attribute
